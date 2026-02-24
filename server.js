@@ -546,12 +546,3 @@ setInterval(async () => {
   } catch(e) { console.error('Error verificador:', e.message); }
 }, 60000);
 
-// ===========================
-// ARRANCAR
-// ===========================
-initDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`\n🚗 Auto Premium Service CRM`);
-    console.log(`✅ Servidor corriendo en: https://autopremium-crm.onrender.com:${PORT}\n`);
-  });
-}).catch(err => { console.error('Error iniciando DB:', err); process.exit(1); });
