@@ -10,6 +10,18 @@ const { Pool } = require('pg');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.listen(PORT, async () => {
+  console.log("🚗 Auto Premium Service CRM");
+  console.log(`✅ Servidor corriendo en puerto ${PORT}`);
+
+  try {
+    await initDB();
+    console.log("✅ Base de datos inicializada");
+  } catch (err) {
+    console.error("Error iniciando DB:", err);
+  }
+});
+
 app.use(cors());
 app.use(express.json());
 
