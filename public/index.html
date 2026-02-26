@@ -1014,24 +1014,34 @@
         </div>
       </div>
 
+
       <div class="config-section">
-        <div class="config-section-title">💬 Configuración de WhatsApp (Twilio)</div>
+        <div class="config-section-title">💬 Configuración de WhatsApp Cloud API (Meta)</div>
+
         <div class="form-grid">
-          <div class="form-group">
-            <label>Account SID</label>
-            <input type="text" id="cfg-twilio_sid" placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxx"/>
-          </div>
-          <div class="form-group">
-            <label>Auth Token</label>
-            <input type="password" id="cfg-twilio_token" placeholder="••••••••••••"/>
-          </div>
           <div class="form-group full">
-            <label>Número WhatsApp Twilio (From)</label>
-            <input type="text" id="cfg-twilio_whatsapp_from" placeholder="whatsapp:+14155238886"/>
+            <label>WhatsApp Access Token</label>
+            <input type="password" id="cfg-whatsapp_token" placeholder="EAAGxxxxxxxxxxxxxxxxxxxxx"/>
+          </div>
+
+          <div class="form-group full">
+            <label>Phone Number ID</label>
+            <input type="text" id="cfg-phone_number_id" placeholder="123456789012345"/>
           </div>
         </div>
-        <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:14px;margin-top:16px;font-size:13px;color:#86efac">
-          💡 Regístrate en <strong>twilio.com</strong> → activa el sandbox de WhatsApp → copia tu SID y Token. El número From por defecto es el sandbox de Twilio.
+
+        <div style="background:rgba(34,197,94,0.08);
+                    border:1px solid rgba(34,197,94,0.2);
+                    border-radius:8px;
+                    padding:14px;
+                    margin-top:16px;
+                    font-size:13px;
+                    color:#86efac">
+
+          💡 Ve a <strong>Meta Developers → WhatsApp → API Setup</strong>  
+          Copia el <strong>Temporary Access Token</strong> y el <strong>Phone Number ID</strong>.  
+          Luego genera un token permanente para producción.
+
         </div>
       </div>
 
@@ -1812,23 +1822,39 @@
   // ===========================
   // CONFIGURACIÓN
   // ===========================
-  async function cargarConfig() {
-    const config = await apiFetch('/config');
-    const keys = ['email_host','email_port','email_user','email_pass','twilio_sid','twilio_token','twilio_whatsapp_from'];
-    keys.forEach(k => {
-      const el = document.getElementById(`cfg-${k}`);
-      if (el) el.value = config[k] || '';
-    });
-  }
+ async function cargarConfig() {
+  const config = await apiFetch('/config');
+  const keys = [
+    'email_host',
+    'email_port',
+    'email_user',
+    'email_pass',
+    'whatsapp_token',
+    'phone_number_id'
+  ];
 
-  async function guardarConfig() {
-    const keys = ['email_host','email_port','email_user','email_pass','twilio_sid','twilio_token','twilio_whatsapp_from'];
-    const body = {};
-    keys.forEach(k => body[k] = document.getElementById(`cfg-${k}`)?.value || '');
-    
-    await apiFetch('/config', 'POST', body);
-    showToast('Configuración guardada ✓', 'success');
-  }
+  keys.forEach(k => {
+    const el = document.getElementById(`cfg-${k}`);
+    if (el) el.value = config[k] || '';
+  });
+}
+async function guardarConfig() {
+  const keys = [
+    'email_host',
+    'email_port',
+    'email_user',
+    'email_pass',
+    'whatsapp_token',
+    'phone_number_id'
+  ];
+
+  const body = {};
+  keys.forEach(k => {
+    body[k] = document.getElementById(`cfg-${k}`)?.value || '';
+  });
+
+  await apiFetch('/config', 'POST', body);
+}
 
   // ===========================
   // UTILIDADES

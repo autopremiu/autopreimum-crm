@@ -481,18 +481,45 @@ async function enviarEmail(config, cliente, campana) {
 }
 
 async function enviarWhatsApp(config, cliente, campana) {
-  if (!config.twilio_sid || !config.twilio_token) throw new Error('WhatsApp no configurado.');
-  const nombre = [cliente.primer_nombre, cliente.primer_apellido].filter(Boolean).join(' ') || cliente.empresa || 'Cliente';
-  let movil = String(cliente.movil).replace(/\D/g,'');
-  if (!movil.startsWith('57') && movil.length===10) movil = '57'+movil;
-  if (!movil.startsWith('+')) movil = '+'+movil;
-  const msg = campana.mensaje.replace(/\{nombre\}/gi, nombre).replace(/\{empresa\}/gi, cliente.empresa||'');
-  const response = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${config.twilio_sid}/Messages.json`, {
-    method: 'POST',
-    headers: { 'Authorization': 'Basic '+Buffer.from(`${config.twilio_sid}:${config.twilio_token}`).toString('base64'), 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ From: config.twilio_whatsapp_from||'whatsapp:+14155238886', To: `whatsapp:${movil}`, Body: `🚗 *AUTO PREMIUM SERVICE*\n\nHola *${nombre}*,\n\n${msg}` })
-  });
-  if (!response.ok) { const err = await response.json(); throw new Error(err.message||'Error Twilio'); }
+  if (!config.whatsapp_token || !config.phone_number_id) {
+    throw new Error('WhatsApp API no configurada.');
+  }
+
+  const nombre = [cliente.primer_nombre, cliente.primer_apellido]
+    .filter(Boolean)
+    .join(' ') || cliente.empresa || 'Cliente';
+
+  let movil = String(cliente.movil).replace(/\D/g, '');
+  if (!movil.startsWith('57') && movil.length === 10) movil = '57' + movil;
+
+  const msg = campana.mensaje
+    .replace(/\{nombre\}/gi, nombre)
+    .replace(/\{empresa\}/gi, cliente.empresa || '');
+
+  const response = await fetch(
+    `https://graph.facebook.com/v19.0/${config.phone_number_id}/messages`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${config.whatsapp_token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        messaging_product: "whatsapp",
+        to: movil,
+        type: "text",
+        text: {
+          body: `🚗 *AUTO PREMIUM SERVICE*\n\nHola *${nombre}*,\n\n${msg}`
+        }
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error?.message || 'Error WhatsApp API');
+  }
 }
 
 async function obtenerConfig() {
