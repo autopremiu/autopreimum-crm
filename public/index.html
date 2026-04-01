@@ -1266,8 +1266,7 @@
     const opts = { method, headers: { 'Content-Type': 'application/json' } };
     if (authToken) opts.headers['x-auth-token'] = authToken;
     if (body) opts.body = JSON.stringify(body);
-    const r = await fetch(API + path, opts);
-    if (r.status === 401) { doLogout(); return; }
+    const API = '/api';    if (r.status === 401) { doLogout(); return; }
     const d = await r.json();
     if (!r.ok) throw new Error(d.error || 'Error de servidor');
     return d;
@@ -1303,7 +1302,8 @@
     }
 
     // 🔥 GUARDAR TOKEN
-    localStorage.setItem("token", data.token);
+    localStorage.setItem("ap_token", data.token);
+    authToken = data.token;
 
     // 🔥 OCULTAR LOGIN
     document.getElementById("login-screen").style.display = "none";
