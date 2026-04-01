@@ -5,18 +5,21 @@ const multer = require('multer');
 const xlsx = require('xlsx');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
-const { Pool } = require('pg');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, async () => {
+
+app.listen(PORT,  async () => {
   console.log("🚗 Auto Premium Service CRM");
   console.log(`✅ Servidor corriendo en puerto ${PORT}`);
 
   try {
-    await initDB();
-    console.log("✅ Base de datos inicializada");
+  await initDB();
+  console.log("✅ Base de datos inicializada");
+
+  iniciarVerificador(); // 👈 SOLO AQUÍ
+
   } catch (err) {
     console.error("Error iniciando DB:", err);
   }
@@ -44,9 +47,14 @@ const upload = multer({ dest: 'uploads/' });
 // ===========================
 // POSTGRESQL
 // ===========================
+
+const { Pool } = require('pg');
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  ssl: process.env.NODE_ENV === "production"
+    ? { rejectUnauthorized: false }
+    : false
 });
 
 async function query(sql, params = []) {
@@ -119,16 +127,30 @@ async function initDB() {
 // ===========================
 // AUTH
 // ===========================
+
 app.post('/api/auth/login', async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) return res.status(400).json({ error: 'Faltan credenciales' });
-  const hash = crypto.createHash('sha256').update(password).digest('hex');
-  const usuario = await dbGet('SELECT * FROM usuarios WHERE username=$1 AND password_hash=$2', [username, hash]);
-  if (!usuario) return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
-  const token = generarToken();
-  sesiones.set(token, { id: usuario.id, username: usuario.username, nombre: usuario.nombre });
-  res.json({ token, nombre: usuario.nombre, username: usuario.username });
+  try {
+    const { username, password } = req.body;
+    if (!username || !password)
+      return res.status(400).json({ error: 'Faltan campos' });
+
+    const hash = crypto.createHash('sha256').update(password).digest('hex');
+    const usuario = await dbGet(
+      'SELECT * FROM usuarios WHERE username=$1 AND password_hash=$2',
+      [username, hash]
+    );
+    if (!usuario)
+      return res.status(401).json({ error: 'Credenciales incorrectas' });
+
+    const token = generarToken();
+    sesiones.set(token, { id: usuario.id, username: usuario.username, nombre: usuario.nombre, rol: usuario.rol });
+
+    res.json({ token, username: usuario.username, nombre: usuario.nombre });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error interno', detalle: error.message });
+  }
 });
+
 
 app.post('/api/auth/logout', (req, res) => {
   const token = req.headers['x-auth-token'];
@@ -551,25 +573,46 @@ app.post('/api/config', requireAuth, async (req, res) => {
 // ===========================
 // VERIFICADOR PROGRAMADAS
 // ===========================
-setInterval(async () => {
-  try {
-    const pendientes = await dbAll(`SELECT cp.*, c.titulo, c.canal, c.mensaje FROM campanas_programadas cp
-      JOIN campanas c ON cp.campana_id=c.id WHERE cp.estado='pendiente' AND cp.fecha_envio<=NOW()`);
-    for (const prog of pendientes) {
-      await query("UPDATE campanas_programadas SET estado='ejecutando' WHERE id=$1", [prog.id]);
-      const clienteIds = prog.cliente_ids ? JSON.parse(prog.cliente_ids) : null;
-      let clientes;
-      if (clienteIds && clienteIds.length > 0) {
-        const ph = clienteIds.map((_,i)=>`$${i+1}`).join(',');
-        clientes = await dbAll(`SELECT * FROM clientes WHERE id IN (${ph})`, clienteIds);
-      } else {
-        clientes = await dbAll('SELECT * FROM clientes');
+function iniciarVerificador() {
+  setInterval(async () => {
+    try {
+      const pendientes = await dbAll(`SELECT cp.*, c.titulo, c.canal, c.mensaje FROM campanas_programadas cp
+        JOIN campanas c ON cp.campana_id=c.id WHERE cp.estado='pendiente' AND cp.fecha_envio<=NOW()`);
+
+      for (const prog of pendientes) {
+        await query("UPDATE campanas_programadas SET estado='ejecutando' WHERE id=$1", [prog.id]);
+
+        const clienteIds = prog.cliente_ids ? JSON.parse(prog.cliente_ids) : null;
+        let clientes;
+
+        if (clienteIds && clienteIds.length > 0) {
+          const ph = clienteIds.map((_,i)=>`$${i+1}`).join(',');
+          clientes = await dbAll(`SELECT * FROM clientes WHERE id IN (${ph})`, clienteIds);
+        } else {
+          clientes = await dbAll('SELECT * FROM clientes');
+        }
+
+        const filtrados = clientes.filter(c =>
+          prog.canal === 'email'
+            ? c.email && c.email.includes('@')
+            : c.movil && String(c.movil).length > 5
+        );
+
+        await query(
+          "UPDATE campanas SET estado='enviando', total_destinatarios=$1, enviado_at=NOW() WHERE id=$2",
+          [filtrados.length, prog.campana_id]
+        );
+
+        procesarEnvios(prog, filtrados);
+
+        await query(
+          "UPDATE campanas_programadas SET estado='completado' WHERE id=$1",
+          [prog.id]
+        );
       }
-      const filtrados = clientes.filter(c => prog.canal==='email' ? c.email&&c.email.includes('@') : c.movil&&String(c.movil).length>5);
-      await query("UPDATE campanas SET estado='enviando', total_destinatarios=$1, enviado_at=NOW() WHERE id=$2", [filtrados.length, prog.campana_id]);
-      procesarEnvios(prog, filtrados);
-      await query("UPDATE campanas_programadas SET estado='completado' WHERE id=$1", [prog.id]);
+    } catch (e) {
+      console.error('Error verificador:', e.message);
     }
-  } catch(e) { console.error('Error verificador:', e.message); }
-}, 60000);
+  }, 60000);
+}
 

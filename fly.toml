@@ -1,0 +1,17 @@
+app = "autopremium-crm"
+primary_region = "gru"
+
+[build]
+
+[env]
+  PORT = "8080"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+
+  [[http_service.ports]]
+    port = 80
+
+  [[http_service.ports]]
+    port = 443
