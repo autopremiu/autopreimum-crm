@@ -1256,6 +1256,177 @@
 <!-- TOAST CONTAINER -->
 <div class="toast-container" id="toast-container"></div>
 
+
+<script>
+const API_URL = ''; // mismo dominio (Render)
+
+let TOKEN = localStorage.getItem('token') || null;
+
+// ==========================
+// FETCH CENTRALIZADO
+// ==========================
+async function _apiFetch(url, options = {}) {
+  options.headers = options.headers || {};
+  
+  if (TOKEN) {
+    options.headers['x-auth-token'] = TOKEN;
+  }
+
+  if (!(options.body instanceof FormData)) {
+    options.headers['Content-Type'] = 'application/json';
+  }
+
+  const res = await fetch(API_URL + url, options);
+
+  if (res.status === 401) {
+    doLogout();
+    throw new Error('Sesión expirada');
+  }
+
+  return res.json();
+}
+
+// ==========================
+// LOGIN
+// ==========================
+async function doLogin() {
+  const username = document.getElementById('login-user').value.trim();
+  const password = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-error');
+
+  errEl.style.display = 'none';
+
+  if (!username || !password) {
+    errEl.innerText = 'Completa todos los campos';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error);
+
+    TOKEN = data.token;
+    localStorage.setItem('token', TOKEN);
+
+    document.getElementById('login-screen').style.display = 'none';
+
+    iniciarApp();
+
+  } catch (err) {
+    errEl.innerText = err.message;
+    errEl.style.display = 'block';
+  }
+}
+
+// ==========================
+// LOGOUT (🔥 ESTE TE FALTABA)
+// ==========================
+async function doLogout() {
+  try {
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+      headers: { 'x-auth-token': TOKEN }
+    });
+  } catch (e) {}
+
+  localStorage.removeItem('token');
+  TOKEN = null;
+
+  location.reload();
+}
+
+// ==========================
+// VERIFICAR SESIÓN
+// ==========================
+async function verificarSesion() {
+  if (!TOKEN) return;
+
+  try {
+    const user = await _apiFetch('/api/auth/me');
+
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('sidebar-usuario').innerText = user.nombre;
+
+    iniciarApp();
+
+  } catch (e) {
+    console.warn('Sesión inválida');
+  }
+}
+
+// ==========================
+// INICIAR APP
+// ==========================
+function iniciarApp() {
+  cargarStats();
+  cargarGrafica();
+}
+
+// ==========================
+// STATS
+// ==========================
+async function cargarStats() {
+  try {
+    const data = await _apiFetch('/api/stats');
+
+    document.getElementById('stat-clientes').innerText = data.totalClientes;
+    document.getElementById('stat-campanas').innerText = data.totalCampanas;
+    document.getElementById('stat-enviados').innerText = data.totalEnviados;
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// ==========================
+// GRÁFICA
+// ==========================
+async function cargarGrafica() {
+  try {
+    const data = await _apiFetch('/api/stats/campanas-por-mes');
+
+    if (!data.length) {
+      document.getElementById('chart-empty').style.display = 'block';
+      return;
+    }
+
+    const labels = data.map(d => d.mes);
+    const values = data.map(d => d.total);
+
+    new Chart(document.getElementById('chart-campanas'), {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Campañas',
+          data: values,
+          tension: 0.3
+        }]
+      }
+    });
+
+  } catch (e) {
+    console.error("Gráfica no disponible:", e.message);
+  }
+}
+
+// ==========================
+// INIT
+// ==========================
+verificarSesion();
+
+
+
+</script>
+
 <script>
 
   const API = '/api';
