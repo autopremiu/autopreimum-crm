@@ -43,11 +43,34 @@ function generarToken() {
   return crypto.randomBytes(32).toString('hex');
 }
 
-function requireAuth(req, res, next) {
+async function requireAuth(req, res, next) {
   const token = req.headers['x-auth-token'];
-  if (!token || !sesiones.has(token)) return res.status(401).json({ error: 'No autorizado' });
-  req.usuario = sesiones.get(token);
-  next();
+  if (!token) return res.status(401).json({ error: 'No autorizado' });
+  
+  // Primero busca en memoria
+  if (sesiones.has(token)) {
+    req.usuario = sesiones.get(token);
+    return next();
+  }
+  
+  // Si no está en memoria (servidor reinició), verifica en BD
+  try {
+    const usuario = await dbGet(
+      'SELECT * FROM sesiones_activas WHERE token=$1 AND expiry > NOW()',
+      [token]
+    );
+    if (!usuario) return res.status(401).json({ error: 'Sesión expirada' });
+    
+    const user = await dbGet('SELECT * FROM usuarios WHERE id=$1', [usuario.usuario_id]);
+    if (!user) return res.status(401).json({ error: 'No autorizado' });
+    
+    const sesionData = { id: user.id, username: user.username, nombre: user.nombre, rol: user.rol };
+    sesiones.set(token, sesionData);
+    req.usuario = sesionData;
+    next();
+  } catch(e) {
+    return res.status(401).json({ error: 'No autorizado' });
+  }
 }
 
 app.use(express.static('public'));
@@ -124,6 +147,13 @@ async function initDB() {
     fecha_envio TIMESTAMP NOT NULL, cliente_ids TEXT,
     estado TEXT DEFAULT 'pendiente', created_at TIMESTAMP DEFAULT NOW())`);
 
+  await query(`CREATE TABLE IF NOT EXISTS sesiones_activas (
+    id SERIAL PRIMARY KEY,
+    token TEXT UNIQUE NOT NULL,
+    usuario_id INTEGER REFERENCES usuarios(id),
+    expiry TIMESTAMP DEFAULT (NOW() + INTERVAL '7 days'),
+    created_at TIMESTAMP DEFAULT NOW())`);
+
   const adminExiste = await dbGet("SELECT id FROM usuarios WHERE username = 'admin'");
   if (!adminExiste) {
     const hash = crypto.createHash('sha256').update('admin123').digest('hex');
@@ -131,7 +161,9 @@ async function initDB() {
     console.log('👤 Usuario admin creado (user: admin, pass: admin123)');
   }
   console.log('✅ Base de datos inicializada');
+  
 }
+
 
 // ===========================
 // AUTH
@@ -158,12 +190,45 @@ app.post('/api/auth/login', async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: 'Error interno', detalle: error.message });
   }
+
+  app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password)
+      return res.status(400).json({ error: 'Faltan campos' });
+
+    const hash = crypto.createHash('sha256').update(password).digest('hex');
+    const usuario = await dbGet(
+      'SELECT * FROM usuarios WHERE username=$1 AND password_hash=$2',
+      [username, hash]
+    );
+    if (!usuario)
+      return res.status(401).json({ error: 'Credenciales incorrectas' });
+
+    const token = generarToken();
+    const sesionData = { id: usuario.id, username: usuario.username, nombre: usuario.nombre, rol: usuario.rol };
+    
+    // Guardar en memoria Y en BD
+    sesiones.set(token, sesionData);
+    await query(
+      'INSERT INTO sesiones_activas (token, usuario_id) VALUES ($1, $2)',
+      [token, usuario.id]
+    );
+
+    res.json({ token, username: usuario.username, nombre: usuario.nombre });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error interno', detalle: error.message });
+  }
+});
 });
 
 
-app.post('/api/auth/logout', (req, res) => {
+app.post('/api/auth/logout', async (req, res) => {
   const token = req.headers['x-auth-token'];
-  if (token) sesiones.delete(token);
+  if (token) {
+    sesiones.delete(token);
+    await query('DELETE FROM sesiones_activas WHERE token=$1', [token]).catch(()=>{});
+  }
   res.json({ message: 'Sesión cerrada' });
 });
 
