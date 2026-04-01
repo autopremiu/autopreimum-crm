@@ -1274,36 +1274,43 @@
   };
 
   async function doLogin() {
-    const username = document.getElementById('login-user').value.trim();
-    const password = document.getElementById('login-pass').value;
-    const errEl = document.getElementById('login-error');
-    errEl.style.display = 'none';
+  const username = document.getElementById('login-user').value.trim();
+  const password = document.getElementById('login-pass').value;
+  const errEl = document.getElementById('login-error');
 
-    if (!username || !password) {
-      errEl.textContent = 'Completa usuario y contraseña';
+  errEl.style.display = 'none';
+
+  if (!username || !password) {
+    errEl.innerText = "Completa los campos";
+    errEl.style.display = 'block';
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      errEl.innerText = data.error || "Error en login";
       errEl.style.display = 'block';
       return;
     }
 
-    try {
-      const r = await fetch(API + '/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.error);
+    localStorage.setItem("token", data.token);
+    location.reload();
 
-      authToken = d.token;
-      localStorage.setItem('ap_token', authToken);
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('sidebar-usuario').textContent = '👤 ' + (d.nombre || d.username);
-      cargarDashboard();
-    } catch(e) {
-      errEl.textContent = e.message || 'Error al iniciar sesión';
-      errEl.style.display = 'block';
-    }
+  } catch (err) {
+    errEl.innerText = "Error de conexión";
+    errEl.style.display = 'block';
   }
+}
 
   function doLogout() {
     if (authToken) {
