@@ -51,11 +51,7 @@ const upload = multer({ dest: 'uploads/' });
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  host: 'aws-0-us-east-1.pooler.supabase.com',
-  port: 6543,
-  user: 'postgres',
-  password: 'qPyLmCgMqs9PXvds',
-  database: 'postgres',
+  connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
