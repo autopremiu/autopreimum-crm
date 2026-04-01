@@ -1258,7 +1258,7 @@
 
 <script>
 
-  const API = 'https://autopremium-crm.fly.dev/api';
+  const API = 'fetch("/api/auth/login")';
   let authToken = localStorage.getItem('ap_token') || null;
 
   // Interceptar apiFetch para incluir token
