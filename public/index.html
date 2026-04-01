@@ -1281,33 +1281,41 @@
   errEl.style.display = 'none';
 
   if (!username || !password) {
-    errEl.innerText = "Completa los campos";
+    errEl.textContent = "Ingresa usuario y contraseña";
     errEl.style.display = 'block';
     return;
   }
 
   try {
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     });
 
     const data = await res.json();
+    console.log("LOGIN:", data);
 
     if (!res.ok) {
-      errEl.innerText = data.error || "Error en login";
+      errEl.textContent = data.error || "Error";
       errEl.style.display = 'block';
       return;
     }
 
+    // 🔥 GUARDAR TOKEN
     localStorage.setItem("token", data.token);
-    location.reload();
+
+    // 🔥 OCULTAR LOGIN
+    document.getElementById("login-screen").style.display = "none";
+
+    // 🔥 MOSTRAR APP
+    document.body.style.overflow = "auto";
+
+    // 🔥 CARGAR DATOS
+    cargarDashboard();
 
   } catch (err) {
-    errEl.innerText = "Error de conexión";
+    errEl.textContent = "Error de conexión";
     errEl.style.display = 'block';
   }
 }
