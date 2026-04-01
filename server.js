@@ -25,6 +25,15 @@ app.listen(PORT,  async () => {
   }
 });
 
+
+
+
+console.log("DB URL:", process.env.DATABASE_URL);
+
+
+
+
+
 app.use(cors());
 app.use(express.json());
 
