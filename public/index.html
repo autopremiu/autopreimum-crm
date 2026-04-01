@@ -1356,7 +1356,7 @@ async function apiFetch(path, options = {}) {
   async function verificarSesion() {
     if (!authToken) return;
     try {
-      const d = await _apiFetch('/auth/me');
+      const d = await apiFetch('/auth/me');
       if (d) {
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('sidebar-usuario').textContent = '👤 ' + (d.nombre || d.username);
