@@ -9,30 +9,19 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
-app.listen(PORT,  async () => {
+app.listen(PORT, async () => {
   console.log("🚗 Auto Premium Service CRM");
   console.log(`✅ Servidor corriendo en puerto ${PORT}`);
-
   try {
-  await initDB();
-  console.log("✅ Base de datos inicializada");
-
-  iniciarVerificador(); // 👈 SOLO AQUÍ
-
+    await initDB();
+    console.log("✅ Base de datos inicializada");
+    iniciarVerificador();
   } catch (err) {
     console.error("Error iniciando DB:", err);
   }
 });
 
-
-
-
 console.log("DB URL:", process.env.DATABASE_URL);
-
-
-
-
 
 app.use(cors());
 app.use(express.json());
@@ -46,29 +35,29 @@ function generarToken() {
 async function requireAuth(req, res, next) {
   const token = req.headers['x-auth-token'];
   if (!token) return res.status(401).json({ error: 'No autorizado' });
-  
+
   // Primero busca en memoria
   if (sesiones.has(token)) {
     req.usuario = sesiones.get(token);
     return next();
   }
-  
+
   // Si no está en memoria (servidor reinició), verifica en BD
   try {
-    const usuario = await dbGet(
+    const sesion = await dbGet(
       'SELECT * FROM sesiones_activas WHERE token=$1 AND expiry > NOW()',
       [token]
     );
-    if (!usuario) return res.status(401).json({ error: 'Sesión expirada' });
-    
-    const user = await dbGet('SELECT * FROM usuarios WHERE id=$1', [usuario.usuario_id]);
+    if (!sesion) return res.status(401).json({ error: 'Sesión expirada' });
+
+    const user = await dbGet('SELECT * FROM usuarios WHERE id=$1', [sesion.usuario_id]);
     if (!user) return res.status(401).json({ error: 'No autorizado' });
-    
+
     const sesionData = { id: user.id, username: user.username, nombre: user.nombre, rol: user.rol };
     sesiones.set(token, sesionData);
     req.usuario = sesionData;
     next();
-  } catch(e) {
+  } catch (e) {
     return res.status(401).json({ error: 'No autorizado' });
   }
 }
@@ -79,14 +68,11 @@ const upload = multer({ dest: 'uploads/' });
 // ===========================
 // POSTGRESQL
 // ===========================
-
 const { Pool } = require('pg');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: { rejectUnauthorized: false }
 });
 
 async function query(sql, params = []) {
@@ -161,14 +147,11 @@ async function initDB() {
     console.log('👤 Usuario admin creado (user: admin, pass: admin123)');
   }
   console.log('✅ Base de datos inicializada');
-  
 }
-
 
 // ===========================
 // AUTH
 // ===========================
-
 app.post('/api/auth/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -184,31 +167,8 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(401).json({ error: 'Credenciales incorrectas' });
 
     const token = generarToken();
-    sesiones.set(token, { id: usuario.id, username: usuario.username, nombre: usuario.nombre, rol: usuario.rol });
-
-    res.json({ token, username: usuario.username, nombre: usuario.nombre });
-  } catch (error) {
-    return res.status(500).json({ error: 'Error interno', detalle: error.message });
-  }
-
-  app.post('/api/auth/login', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    if (!username || !password)
-      return res.status(400).json({ error: 'Faltan campos' });
-
-    const hash = crypto.createHash('sha256').update(password).digest('hex');
-    const usuario = await dbGet(
-      'SELECT * FROM usuarios WHERE username=$1 AND password_hash=$2',
-      [username, hash]
-    );
-    if (!usuario)
-      return res.status(401).json({ error: 'Credenciales incorrectas' });
-
-    const token = generarToken();
     const sesionData = { id: usuario.id, username: usuario.username, nombre: usuario.nombre, rol: usuario.rol };
-    
-    // Guardar en memoria Y en BD
+
     sesiones.set(token, sesionData);
     await query(
       'INSERT INTO sesiones_activas (token, usuario_id) VALUES ($1, $2)',
@@ -220,14 +180,12 @@ app.post('/api/auth/login', async (req, res) => {
     return res.status(500).json({ error: 'Error interno', detalle: error.message });
   }
 });
-});
-
 
 app.post('/api/auth/logout', async (req, res) => {
   const token = req.headers['x-auth-token'];
   if (token) {
     sesiones.delete(token);
-    await query('DELETE FROM sesiones_activas WHERE token=$1', [token]).catch(()=>{});
+    await query('DELETE FROM sesiones_activas WHERE token=$1', [token]).catch(() => {});
   }
   res.json({ message: 'Sesión cerrada' });
 });
@@ -271,7 +229,7 @@ app.post('/api/auth/recuperar', async (req, res) => {
         </div></div>`
     });
     res.json({ message: 'Si ese correo está registrado, recibirás las instrucciones.' });
-  } catch(e) { res.status(500).json({ error: 'Error al enviar el correo.' }); }
+  } catch (e) { res.status(500).json({ error: 'Error al enviar el correo.' }); }
 });
 
 app.post('/api/auth/reset-password', async (req, res) => {
@@ -312,7 +270,7 @@ app.post('/api/auth/solicitudes/:id', requireAuth, async (req, res) => {
         [sol.username, sol.password_hash, sol.nombre, sol.email || '']);
       await query("UPDATE solicitudes SET estado='aprobado' WHERE id=$1", [req.params.id]);
       res.json({ message: `Usuario ${sol.nombre} aprobado` });
-    } catch(e) { res.status(400).json({ error: 'El usuario ya existe' }); }
+    } catch (e) { res.status(400).json({ error: 'El usuario ya existe' }); }
   } else if (accion === 'rechazar') {
     await query("UPDATE solicitudes SET estado='rechazado' WHERE id=$1", [req.params.id]);
     res.json({ message: 'Solicitud rechazada' });
@@ -327,13 +285,13 @@ app.get('/api/plantillas', requireAuth, async (req, res) => res.json(await dbAll
 app.post('/api/plantillas', requireAuth, async (req, res) => {
   const { nombre, asunto, mensaje, canal } = req.body;
   if (!nombre || !mensaje) return res.status(400).json({ error: 'Faltan campos' });
-  const r = await query('INSERT INTO plantillas (nombre,asunto,mensaje,canal) VALUES ($1,$2,$3,$4) RETURNING id', [nombre, asunto||'', mensaje, canal||'email']);
+  const r = await query('INSERT INTO plantillas (nombre,asunto,mensaje,canal) VALUES ($1,$2,$3,$4) RETURNING id', [nombre, asunto || '', mensaje, canal || 'email']);
   res.json({ id: r.rows[0].id, message: 'Plantilla guardada' });
 });
 
 app.put('/api/plantillas/:id', requireAuth, async (req, res) => {
   const { nombre, asunto, mensaje, canal } = req.body;
-  await query('UPDATE plantillas SET nombre=$1,asunto=$2,mensaje=$3,canal=$4 WHERE id=$5', [nombre, asunto||'', mensaje, canal||'email', req.params.id]);
+  await query('UPDATE plantillas SET nombre=$1,asunto=$2,mensaje=$3,canal=$4 WHERE id=$5', [nombre, asunto || '', mensaje, canal || 'email', req.params.id]);
   res.json({ message: 'Plantilla actualizada' });
 });
 
@@ -372,10 +330,10 @@ app.delete('/api/campanas-programadas/:id', requireAuth, async (req, res) => {
 // ===========================
 app.get('/api/clientes/exportar', requireAuth, async (req, res) => {
   const clientes = await dbAll('SELECT * FROM clientes ORDER BY id ASC');
-  const campos = ['nit','dv','naturaleza','primer_nombre','segundo_nombre','primer_apellido','segundo_apellido','empresa','direccion','telefono','movil','email','gerente','cod_identidad','cod_sociedad','cod_actividad','cod_zona','cod_municipio','cod_pais'];
-  const encabezados = ['NIT','DV','NATURALEZA','1er NOMBRE','2do NOMBRE','1er APELLIDO','2do APELLIDO','EMPRESA','DIRECCION','TELEFONO','MOVIL','EMAIL','GERENTE','COD. IDENTIDAD','COD. SOCIEDAD','COD. ACTIVIDAD','COD. ZONA','COD. MUNICIPIO','COD. PAIS'];
+  const campos = ['nit', 'dv', 'naturaleza', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'empresa', 'direccion', 'telefono', 'movil', 'email', 'gerente', 'cod_identidad', 'cod_sociedad', 'cod_actividad', 'cod_zona', 'cod_municipio', 'cod_pais'];
+  const encabezados = ['NIT', 'DV', 'NATURALEZA', '1er NOMBRE', '2do NOMBRE', '1er APELLIDO', '2do APELLIDO', 'EMPRESA', 'DIRECCION', 'TELEFONO', 'MOVIL', 'EMAIL', 'GERENTE', 'COD. IDENTIDAD', 'COD. SOCIEDAD', 'COD. ACTIVIDAD', 'COD. ZONA', 'COD. MUNICIPIO', 'COD. PAIS'];
   let csv = encabezados.join(',') + '\n';
-  clientes.forEach(c => { csv += campos.map(f => `"${String(c[f]||'').replace(/"/g,'""')}"`).join(',') + '\n'; });
+  clientes.forEach(c => { csv += campos.map(f => `"${String(c[f] || '').replace(/"/g, '""')}"`).join(',') + '\n'; });
   res.setHeader('Content-Type', 'text/csv; charset=utf-8');
   res.setHeader('Content-Disposition', 'attachment; filename="clientes_autopremium.csv"');
   res.send('\uFEFF' + csv);
@@ -407,16 +365,16 @@ app.get('/api/stats/campanas-por-mes', requireAuth, async (req, res) => {
 app.get('/api/clientes', requireAuth, async (req, res) => {
   try {
     const { search = '', page = 1, limit = 50 } = req.query;
-    const offset = (parseInt(page)-1) * parseInt(limit);
+    const offset = (parseInt(page) - 1) * parseInt(limit);
     let where = '', params = [];
     if (search) {
       where = `WHERE primer_nombre ILIKE $1 OR primer_apellido ILIKE $1 OR empresa ILIKE $1 OR nit ILIKE $1 OR email ILIKE $1 OR movil ILIKE $1`;
       params = [`%${search}%`];
     }
-    const clientes = await dbAll(`SELECT * FROM clientes ${where} ORDER BY id DESC LIMIT $${params.length+1} OFFSET $${params.length+2}`, [...params, parseInt(limit), offset]);
+    const clientes = await dbAll(`SELECT * FROM clientes ${where} ORDER BY id DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`, [...params, parseInt(limit), offset]);
     const countRow = await dbGet(`SELECT COUNT(*) as total FROM clientes ${where}`, params);
-    res.json({ clientes, total: parseInt(countRow?.total||0), page: parseInt(page), limit: parseInt(limit) });
-  } catch(e) { res.status(500).json({ error: e.message }); }
+    res.json({ clientes, total: parseInt(countRow?.total || 0), page: parseInt(page), limit: parseInt(limit) });
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 app.get('/api/clientes/:id', requireAuth, async (req, res) => {
@@ -427,22 +385,22 @@ app.get('/api/clientes/:id', requireAuth, async (req, res) => {
 
 app.post('/api/clientes', requireAuth, async (req, res) => {
   try {
-    const fields = ['nit','dv','naturaleza','primer_nombre','segundo_nombre','primer_apellido','segundo_apellido','empresa','direccion','telefono','movil','email','gerente','cod_identidad','cod_sociedad','cod_actividad','cod_zona','cod_municipio','cod_pais'];
-    const values = fields.map(f => req.body[f]||null);
-    const placeholders = fields.map((_,i)=>`$${i+1}`).join(',');
+    const fields = ['nit', 'dv', 'naturaleza', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'empresa', 'direccion', 'telefono', 'movil', 'email', 'gerente', 'cod_identidad', 'cod_sociedad', 'cod_actividad', 'cod_zona', 'cod_municipio', 'cod_pais'];
+    const values = fields.map(f => req.body[f] || null);
+    const placeholders = fields.map((_, i) => `$${i + 1}`).join(',');
     const r = await query(`INSERT INTO clientes (${fields.join(',')}) VALUES (${placeholders}) RETURNING id`, values);
     res.json({ id: r.rows[0].id, message: 'Cliente creado' });
-  } catch(e) { res.status(500).json({ error: e.message }); }
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 app.put('/api/clientes/:id', requireAuth, async (req, res) => {
   try {
-    const fields = ['nit','dv','naturaleza','primer_nombre','segundo_nombre','primer_apellido','segundo_apellido','empresa','direccion','telefono','movil','email','gerente','cod_identidad','cod_sociedad','cod_actividad','cod_zona','cod_municipio','cod_pais'];
-    const set = fields.map((f,i)=>`${f}=$${i+1}`).join(',');
-    const values = fields.map(f => req.body[f]||null);
-    await query(`UPDATE clientes SET ${set} WHERE id=$${fields.length+1}`, [...values, req.params.id]);
+    const fields = ['nit', 'dv', 'naturaleza', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'empresa', 'direccion', 'telefono', 'movil', 'email', 'gerente', 'cod_identidad', 'cod_sociedad', 'cod_actividad', 'cod_zona', 'cod_municipio', 'cod_pais'];
+    const set = fields.map((f, i) => `${f}=$${i + 1}`).join(',');
+    const values = fields.map(f => req.body[f] || null);
+    await query(`UPDATE clientes SET ${set} WHERE id=$${fields.length + 1}`, [...values, req.params.id]);
     res.json({ message: 'Actualizado' });
-  } catch(e) { res.status(500).json({ error: e.message }); }
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 app.delete('/api/clientes/:id', requireAuth, async (req, res) => {
@@ -456,11 +414,11 @@ app.post('/api/clientes/importar', requireAuth, upload.single('archivo'), async 
     const workbook = xlsx.readFile(req.file.path);
     const data = xlsx.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
     const colMap = {
-      'NIT':'nit','DV':'dv','NATURALEZA':'naturaleza','1er NOMBRE':'primer_nombre','2do NOMBRE':'segundo_nombre',
-      '1er APELLIDO':'primer_apellido','2do APELLIDO':'segundo_apellido','EMPRESA':'empresa','DIRECCION':'direccion',
-      'TELEFONO':'telefono','MOVIL':'movil','EMAIL':'email','GERENTE':'gerente','COD. IDENTIDAD':'cod_identidad',
-      'COD. SOCIEDAD':'cod_sociedad','COD. ACTIVIDAD':'cod_actividad','COD. ZONA':'cod_zona',
-      'COD. MUNICIPIO':'cod_municipio','COD. PAIS':'cod_pais'
+      'NIT': 'nit', 'DV': 'dv', 'NATURALEZA': 'naturaleza', '1er NOMBRE': 'primer_nombre', '2do NOMBRE': 'segundo_nombre',
+      '1er APELLIDO': 'primer_apellido', '2do APELLIDO': 'segundo_apellido', 'EMPRESA': 'empresa', 'DIRECCION': 'direccion',
+      'TELEFONO': 'telefono', 'MOVIL': 'movil', 'EMAIL': 'email', 'GERENTE': 'gerente', 'COD. IDENTIDAD': 'cod_identidad',
+      'COD. SOCIEDAD': 'cod_sociedad', 'COD. ACTIVIDAD': 'cod_actividad', 'COD. ZONA': 'cod_zona',
+      'COD. MUNICIPIO': 'cod_municipio', 'COD. PAIS': 'cod_pais'
     };
     const fields = Object.values(colMap);
     let inserted = 0;
@@ -472,17 +430,17 @@ app.post('/api/clientes/importar', requireAuth, upload.single('archivo'), async 
       const nit = values[0], email = values[11];
       const existe = await dbGet(
         `SELECT id FROM clientes WHERE COALESCE(NULLIF(TRIM(nit),''),'__')=COALESCE(NULLIF(TRIM($1),''),'__') AND COALESCE(NULLIF(TRIM(email),''),'__')=COALESCE(NULLIF(TRIM($2),''),'__')`,
-        [nit||'', email||'']);
+        [nit || '', email || '']);
       if (existe) continue;
       try {
-        const ph = fields.map((_,i)=>`$${i+1}`).join(',');
+        const ph = fields.map((_, i) => `$${i + 1}`).join(',');
         await query(`INSERT INTO clientes (${fields.join(',')}) VALUES (${ph})`, values);
         inserted++;
-      } catch(e) { /* skip */ }
+      } catch (e) { /* skip */ }
     }
     fs.unlinkSync(req.file.path);
-    res.json({ message: 'Importación completada', total: data.length, insertados: inserted, duplicados: data.length-inserted });
-  } catch(e) {
+    res.json({ message: 'Importación completada', total: data.length, insertados: inserted, duplicados: data.length - inserted });
+  } catch (e) {
     if (req.file && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
     res.status(500).json({ error: e.message });
   }
@@ -507,7 +465,7 @@ app.post('/api/campanas', requireAuth, async (req, res) => {
     if (!titulo || !mensaje || !canal) return res.status(400).json({ error: 'Faltan campos' });
     const r = await query('INSERT INTO campanas (titulo,mensaje,canal) VALUES ($1,$2,$3) RETURNING id', [titulo, mensaje, canal]);
     res.json({ id: r.rows[0].id, message: 'Campaña creada' });
-  } catch(e) { res.status(500).json({ error: e.message }); }
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 app.post('/api/campanas/:id/enviar', requireAuth, async (req, res) => {
@@ -516,12 +474,12 @@ app.post('/api/campanas/:id/enviar', requireAuth, async (req, res) => {
   if (!campana) return res.status(404).json({ error: 'No encontrada' });
   let clientes;
   if (cliente_ids && cliente_ids.length > 0) {
-    const ph = cliente_ids.map((_,i)=>`$${i+1}`).join(',');
+    const ph = cliente_ids.map((_, i) => `$${i + 1}`).join(',');
     clientes = await dbAll(`SELECT * FROM clientes WHERE id IN (${ph})`, cliente_ids);
   } else {
     clientes = await dbAll('SELECT * FROM clientes');
   }
-  const filtrados = clientes.filter(c => campana.canal==='email' ? c.email&&c.email.includes('@') : c.movil&&String(c.movil).length>5);
+  const filtrados = clientes.filter(c => campana.canal === 'email' ? c.email && c.email.includes('@') : c.movil && String(c.movil).length > 5);
   await query("UPDATE campanas SET estado='enviando', total_destinatarios=$1, enviado_at=NOW() WHERE id=$2", [filtrados.length, req.params.id]);
   res.json({ message: 'Envío iniciado', total: filtrados.length });
   procesarEnvios(campana, filtrados);
@@ -535,11 +493,11 @@ async function procesarEnvios(campana, clientes) {
       if (campana.canal === 'email') await enviarEmail(config, cliente, campana);
       else if (campana.canal === 'whatsapp') await enviarWhatsApp(config, cliente, campana);
       await query('INSERT INTO envios (campana_id,cliente_id,canal,destinatario,estado,enviado_at) VALUES ($1,$2,$3,$4,$5,NOW())',
-        [campana.id, cliente.id, campana.canal, campana.canal==='email'?cliente.email:cliente.movil, 'enviado']);
+        [campana.id, cliente.id, campana.canal, campana.canal === 'email' ? cliente.email : cliente.movil, 'enviado']);
       enviados++;
-    } catch(e) {
+    } catch (e) {
       await query('INSERT INTO envios (campana_id,cliente_id,canal,destinatario,estado,error_msg,enviado_at) VALUES ($1,$2,$3,$4,$5,$6,NOW())',
-        [campana.id, cliente.id, campana.canal, campana.canal==='email'?cliente.email:cliente.movil, 'fallido', e.message]);
+        [campana.id, cliente.id, campana.canal, campana.canal === 'email' ? cliente.email : cliente.movil, 'fallido', e.message]);
       fallidos++;
     }
     await new Promise(r => setTimeout(r, 150));
@@ -551,11 +509,11 @@ async function procesarEnvios(campana, clientes) {
 async function enviarEmail(config, cliente, campana) {
   if (!config.email_user || !config.email_pass) throw new Error('Email no configurado.');
   const transporter = nodemailer.createTransport({
-    host: config.email_host||'smtp.gmail.com', port: parseInt(config.email_port)||587,
+    host: config.email_host || 'smtp.gmail.com', port: parseInt(config.email_port) || 587,
     secure: false, auth: { user: config.email_user, pass: config.email_pass }
   });
   const nombre = [cliente.primer_nombre, cliente.primer_apellido].filter(Boolean).join(' ') || cliente.empresa || 'Cliente';
-  const msg = campana.mensaje.replace(/\{nombre\}/gi, nombre).replace(/\{empresa\}/gi, cliente.empresa||'');
+  const msg = campana.mensaje.replace(/\{nombre\}/gi, nombre).replace(/\{empresa\}/gi, cliente.empresa || '');
   await transporter.sendMail({
     from: `Auto Premium Service <${config.email_user}>`, to: cliente.email, subject: campana.titulo,
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0a;border-radius:12px;overflow:hidden">
@@ -567,7 +525,7 @@ async function enviarEmail(config, cliente, campana) {
       <div style="padding:36px 32px;background:#111">
         <p style="color:#aaa;font-size:15px">Hola, <strong style="color:#fff">${nombre}</strong></p>
         <div style="border-left:3px solid #e30000;padding:20px 24px;background:#1a1a1a;border-radius:0 8px 8px 0;margin:24px 0;color:#ccc;line-height:1.7">
-          ${msg.replace(/\n/g,'<br>')}
+          ${msg.replace(/\n/g, '<br>')}
         </div>
         <p style="color:#666;font-size:12px;text-align:center;border-top:1px solid #222;padding-top:20px">
           © ${new Date().getFullYear()} Auto Premium Service
@@ -580,42 +538,23 @@ async function enviarWhatsApp(config, cliente, campana) {
   if (!config.whatsapp_token || !config.phone_number_id) {
     throw new Error('WhatsApp API no configurada.');
   }
-
-  const nombre = [cliente.primer_nombre, cliente.primer_apellido]
-    .filter(Boolean)
-    .join(' ') || cliente.empresa || 'Cliente';
-
+  const nombre = [cliente.primer_nombre, cliente.primer_apellido].filter(Boolean).join(' ') || cliente.empresa || 'Cliente';
   let movil = String(cliente.movil).replace(/\D/g, '');
   if (!movil.startsWith('57') && movil.length === 10) movil = '57' + movil;
-
-  const msg = campana.mensaje
-    .replace(/\{nombre\}/gi, nombre)
-    .replace(/\{empresa\}/gi, cliente.empresa || '');
-
+  const msg = campana.mensaje.replace(/\{nombre\}/gi, nombre).replace(/\{empresa\}/gi, cliente.empresa || '');
   const response = await fetch(
     `https://graph.facebook.com/v19.0/${config.phone_number_id}/messages`,
     {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${config.whatsapp_token}`,
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Authorization': `Bearer ${config.whatsapp_token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        messaging_product: "whatsapp",
-        to: movil,
-        type: "text",
-        text: {
-          body: `🚗 *AUTO PREMIUM SERVICE*\n\nHola *${nombre}*,\n\n${msg}`
-        }
+        messaging_product: "whatsapp", to: movil, type: "text",
+        text: { body: `🚗 *AUTO PREMIUM SERVICE*\n\nHola *${nombre}*,\n\n${msg}` }
       })
     }
   );
-
   const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.error?.message || 'Error WhatsApp API');
-  }
+  if (!response.ok) throw new Error(data.error?.message || 'Error WhatsApp API');
 }
 
 async function obtenerConfig() {
@@ -629,7 +568,7 @@ async function obtenerConfig() {
 app.get('/api/config', requireAuth, async (req, res) => {
   const config = await obtenerConfig();
   if (config.email_pass) config.email_pass = '••••••••';
-  if (config.twilio_token) config.twilio_token = '••••••••';
+  if (config.whatsapp_token) config.whatsapp_token = '••••••••';
   res.json(config);
 });
 
@@ -641,7 +580,7 @@ app.post('/api/config', requireAuth, async (req, res) => {
       }
     }
     res.json({ message: 'Configuración guardada' });
-  } catch(e) { res.status(500).json({ error: e.message }); }
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
 // ===========================
@@ -652,41 +591,26 @@ function iniciarVerificador() {
     try {
       const pendientes = await dbAll(`SELECT cp.*, c.titulo, c.canal, c.mensaje FROM campanas_programadas cp
         JOIN campanas c ON cp.campana_id=c.id WHERE cp.estado='pendiente' AND cp.fecha_envio<=NOW()`);
-
       for (const prog of pendientes) {
         await query("UPDATE campanas_programadas SET estado='ejecutando' WHERE id=$1", [prog.id]);
-
         const clienteIds = prog.cliente_ids ? JSON.parse(prog.cliente_ids) : null;
         let clientes;
-
         if (clienteIds && clienteIds.length > 0) {
-          const ph = clienteIds.map((_,i)=>`$${i+1}`).join(',');
+          const ph = clienteIds.map((_, i) => `$${i + 1}`).join(',');
           clientes = await dbAll(`SELECT * FROM clientes WHERE id IN (${ph})`, clienteIds);
         } else {
           clientes = await dbAll('SELECT * FROM clientes');
         }
-
         const filtrados = clientes.filter(c =>
-          prog.canal === 'email'
-            ? c.email && c.email.includes('@')
-            : c.movil && String(c.movil).length > 5
+          prog.canal === 'email' ? c.email && c.email.includes('@') : c.movil && String(c.movil).length > 5
         );
-
-        await query(
-          "UPDATE campanas SET estado='enviando', total_destinatarios=$1, enviado_at=NOW() WHERE id=$2",
-          [filtrados.length, prog.campana_id]
-        );
-
+        await query("UPDATE campanas SET estado='enviando', total_destinatarios=$1, enviado_at=NOW() WHERE id=$2",
+          [filtrados.length, prog.campana_id]);
         procesarEnvios(prog, filtrados);
-
-        await query(
-          "UPDATE campanas_programadas SET estado='completado' WHERE id=$1",
-          [prog.id]
-        );
+        await query("UPDATE campanas_programadas SET estado='completado' WHERE id=$1", [prog.id]);
       }
     } catch (e) {
       console.error('Error verificador:', e.message);
     }
   }, 60000);
 }
-
