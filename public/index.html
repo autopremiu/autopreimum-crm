@@ -1401,7 +1401,6 @@ async function apiFetch(path, options = {}) {
   // DASHBOARD
   // ===========================
   async function cargarDashboard() {
-    cargarGrafica();
     try {
       const d = await apiFetch('/stats');
       document.getElementById('stat-clientes').textContent = d.totalClientes.toLocaleString();
