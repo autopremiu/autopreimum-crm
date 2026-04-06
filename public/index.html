@@ -1332,7 +1332,6 @@ function doLogout() {
 
     document.getElementById('login-screen').style.display = 'none';
 
-    cargarDashboard();
 
   } catch (err) {
     errEl.textContent = "Error de conexión";
@@ -1341,7 +1340,10 @@ function doLogout() {
 }
 
   async function verificarSesion() {
-  if (!authToken) return;
+  if (!authToken) {
+    document.getElementById('login-screen').style.display = 'flex';
+    return;
+  }
 
   try {
     const res = await fetch(API + '/auth/me', {
@@ -1352,9 +1354,13 @@ function doLogout() {
 
     const d = await res.json();
 
+    // ✅ usuario válido
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('sidebar-usuario').textContent =
       '👤 ' + (d.nombre || d.username);
+
+    // 🔥 SOLO AQUÍ cargas dashboard (UNA SOLA VEZ)
+    cargarDashboard();
 
   } catch (e) {
     doLogout();
@@ -1383,7 +1389,6 @@ function doLogout() {
     document.getElementById('topbar-title').textContent = page.toUpperCase().replace('-', ' ');
     document.getElementById('topbar-actions').innerHTML = '';
 
-    if (page === 'dashboard') cargarDashboard();
     if (page === 'clientes') { paginaActual = 1; cargarClientes(); }
     if (page === 'campanas') cargarCampanas();
     if (page === 'plantillas') cargarPlantillas();
@@ -2351,7 +2356,9 @@ async function cargarGrafica() {
   // Iniciar
   verificarSesion();
 
-
+document.addEventListener('DOMContentLoaded', () => {
+  verificarSesion();
+});
 </script>
 </body>
 </html>
