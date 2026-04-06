@@ -1393,7 +1393,10 @@ function doLogout() {
           <td>${formatFecha(c.created_at)}</td>
         </tr>
       `).join('');
-    } catch(e) { showToast('Error cargando dashboard', 'error'); }
+    } catch(e) { 
+  console.error("ERROR DASHBOARD:", e);
+  showToast(e.message || 'Error cargando dashboard', 'error'); 
+}
   }
 
   // ===========================
