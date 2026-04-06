@@ -1281,41 +1281,12 @@ async function apiFetch(path, options = {}) {
   return res.json();
 }
 
- async function doLogin() {
-  const username = document.getElementById('login-user').value.trim();
-  const password = document.getElementById('login-pass').value;
-  const errEl = document.getElementById('login-error');
-
-  errEl.style.display = 'none';
-
-  try {
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
-
-    const data = await res.json();
-    console.log("LOGIN:", data);
-
-    if (!res.ok) {
-      errEl.textContent = data.error;
-      errEl.style.display = 'block';
-      return;
-    }
-
-    localStorage.setItem('ap_token', data.token);
-    authToken = data.token;
-
-    document.getElementById('login-screen').style.display = 'none';
-
-    cargarDashboard();
-
-  } catch (err) {
-    errEl.textContent = "Error de conexión";
-    errEl.style.display = 'block';
-  }
+function doLogout() {
+  localStorage.removeItem('ap_token');
+  authToken = '';
+  location.reload();
 }
+
 
   async function doLogin() {
   const username = document.getElementById('login-user').value.trim();
