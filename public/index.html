@@ -1900,7 +1900,7 @@ async function guardarConfig() {
   // UTILIDADES
   // ===========================
   async function apiFetch(path, method = 'GET', body = null) {
-    return _apiFetch(path, method, body);
+    return apiFetch(path, method, body);
   }
 
   function abrirModal(id) { document.getElementById(id).classList.add('active'); }
@@ -2353,6 +2353,12 @@ async function guardarConfig() {
 
   // Iniciar
   verificarSesion();
+
+  function doLogout() {
+  localStorage.removeItem('ap_token');
+  authToken = '';
+  location.reload();
+}
 </script>
 </body>
 </html>
