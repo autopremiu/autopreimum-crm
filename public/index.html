@@ -1332,6 +1332,7 @@ function doLogout() {
 
     document.getElementById('login-screen').style.display = 'none';
 
+    cargarDashboard();
 
   } catch (err) {
     errEl.textContent = "Error de conexión";
@@ -1340,32 +1341,17 @@ function doLogout() {
 }
 
   async function verificarSesion() {
-  if (!authToken) {
-    document.getElementById('login-screen').style.display = 'flex';
-    return;
+    if (!authToken) return;
+    try {
+      const d = await apiFetch('/auth/me');
+      if (d) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('sidebar-usuario').textContent = '👤 ' + (d.nombre || d.username);
+      }
+    } catch(e) {
+      doLogout();
+    }
   }
-
-  try {
-    const res = await fetch(API + '/auth/me', {
-      headers: { 'x-auth-token': authToken }
-    });
-
-    if (!res.ok) throw new Error();
-
-    const d = await res.json();
-
-    // ✅ usuario válido
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('sidebar-usuario').textContent =
-      '👤 ' + (d.nombre || d.username);
-
-    // 🔥 SOLO AQUÍ cargas dashboard (UNA SOLA VEZ)
-    cargarDashboard();
-
-  } catch (e) {
-    doLogout();
-  }
-}
   
   let paginaActual = 1;
   const LIMIT = 50;
@@ -1389,6 +1375,7 @@ function doLogout() {
     document.getElementById('topbar-title').textContent = page.toUpperCase().replace('-', ' ');
     document.getElementById('topbar-actions').innerHTML = '';
 
+    if (page === 'dashboard') cargarDashboard();
     if (page === 'clientes') { paginaActual = 1; cargarClientes(); }
     if (page === 'campanas') cargarCampanas();
     if (page === 'plantillas') cargarPlantillas();
@@ -1912,6 +1899,8 @@ async function guardarConfig() {
     m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); });
   });
 
+  console.log('Llamando a apiFetch para:', url);
+
   function esc(str) {
     if (!str) return '';
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -2356,9 +2345,7 @@ async function cargarGrafica() {
   // Iniciar
   verificarSesion();
 
-document.addEventListener('DOMContentLoaded', () => {
-  verificarSesion();
-});
+
 </script>
 </body>
 </html>
