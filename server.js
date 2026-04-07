@@ -84,10 +84,13 @@ const { Pool } = require('pg');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: true
-  }
+  ssl: process.env.NODE_ENV === 'production'
+    ? { rejectUnauthorized: false }
+    : false
 });
+
+
+
 
 async function query(sql, params = []) {
   const client = await pool.connect();
