@@ -31,7 +31,6 @@
       overflow: hidden;
     }
 
-    /* ========== SIDEBAR ========== */
     .sidebar {
       width: 260px;
       height: 100vh;
@@ -50,11 +49,7 @@
       border-bottom: 1px solid var(--gris-borde);
     }
 
-    .logo-text {
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 700;
-    }
-
+    .logo-text { font-family: 'Rajdhani', sans-serif; font-weight: 700; }
     .logo-auto { font-size: 13px; color: var(--texto-apagado); letter-spacing: 3px; text-transform: uppercase; }
     .logo-premium { font-size: 30px; line-height: 1; color: var(--blanco); }
     .logo-service { font-size: 13px; color: var(--texto-apagado); letter-spacing: 2px; }
@@ -69,10 +64,7 @@
     .stripe-r { flex: 1; background: var(--rojo); }
     .stripe-y { flex: 0.6; background: var(--amarillo); }
 
-    .nav-section {
-      padding: 16px 0;
-      flex: 1;
-    }
+    .nav-section { padding: 16px 0; flex: 1; }
 
     .nav-label {
       font-size: 10px;
@@ -107,13 +99,7 @@
       color: var(--texto-apagado);
     }
 
-    /* ========== MAIN ========== */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-    }
+    .main { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 
     .topbar {
       background: var(--gris-oscuro);
@@ -171,11 +157,9 @@
       scrollbar-color: var(--gris-borde) transparent;
     }
 
-    /* ========== PÁGINAS ========== */
     .page { display: none; }
     .page.active { display: block; }
 
-    /* ========== DASHBOARD ========== */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -226,14 +210,9 @@
 
     .panel-title { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 600; letter-spacing: 0.5px; }
 
-    /* ========== TABLA ========== */
     .table-wrap { overflow-x: auto; }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
 
     thead th {
       background: rgba(255,255,255,0.03);
@@ -286,7 +265,6 @@
     .badge-email { background: rgba(59,130,246,0.15); color: #60a5fa; }
     .badge-whatsapp { background: rgba(34,197,94,0.15); color: #4ade80; }
 
-    /* ========== BUSCADOR ========== */
     .search-bar {
       display: flex;
       gap: 12px;
@@ -294,10 +272,7 @@
       align-items: center;
     }
 
-    .search-input-wrap {
-      position: relative;
-      flex: 1;
-    }
+    .search-input-wrap { position: relative; flex: 1; }
 
     .search-input-wrap input {
       width: 100%;
@@ -315,7 +290,6 @@
     .search-input-wrap input:focus { border-color: var(--rojo); }
     .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--texto-apagado); font-size: 16px; }
 
-    /* ========== MODAL ========== */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -361,13 +335,7 @@
     .modal-body { padding: 28px; }
     .modal-footer { padding: 20px 28px; border-top: 1px solid var(--gris-borde); display: flex; gap: 12px; justify-content: flex-end; }
 
-    /* ========== FORMS ========== */
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     .form-group.full { grid-column: 1 / -1; }
 
@@ -396,7 +364,6 @@
     textarea { resize: vertical; min-height: 100px; }
     select option { background: var(--gris-oscuro); }
 
-    /* ========== UPLOAD ZONE ========== */
     .upload-zone {
       border: 2px dashed var(--gris-borde);
       border-radius: 12px;
@@ -411,7 +378,6 @@
     .upload-zone-text { font-size: 16px; color: var(--blanco); margin-bottom: 6px; }
     .upload-zone-sub { font-size: 13px; color: var(--texto-apagado); }
 
-    /* ========== PROGRESS ========== */
     .progress-bar {
       width: 100%;
       height: 6px;
@@ -428,7 +394,6 @@
       transition: width 0.5s ease;
     }
 
-    /* ========== TOAST ========== */
     .toast-container {
       position: fixed;
       top: 20px;
@@ -461,10 +426,8 @@
       to { opacity: 1; transform: translateX(0); }
     }
 
-    /* ========== CHECKBOX SELECCIÓN ========== */
     .checkbox-cliente { width: 16px; height: 16px; cursor: pointer; accent-color: var(--rojo); }
 
-    /* ========== PAGINATION ========== */
     .pagination {
       display: flex;
       align-items: center;
@@ -481,7 +444,6 @@
     .pag-btn:hover:not(.active) { border-color: var(--rojo); color: var(--rojo); }
     .pag-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-    /* ========== CONFIG ========== */
     .config-section {
       background: var(--gris-medio);
       border: 1px solid var(--gris-borde);
@@ -500,33 +462,12 @@
       gap: 10px;
     }
 
-    /* ========== EMPTY STATE ========== */
-    .empty-state {
-      text-align: center;
-      padding: 64px 24px;
-      color: var(--texto-apagado);
-    }
-
+    .empty-state { text-align: center; padding: 64px 24px; color: var(--texto-apagado); }
     .empty-icon { font-size: 56px; margin-bottom: 16px; opacity: 0.4; }
     .empty-title { font-size: 18px; color: var(--blanco); margin-bottom: 8px; font-family: 'Rajdhani', sans-serif; font-weight: 600; }
 
-    /* ========== TRAZABILIDAD ========== */
-    .timeline-item {
-      display: flex;
-      gap: 16px;
-      padding: 16px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .timeline-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--rojo);
-      flex-shrink: 0;
-      margin-top: 5px;
-    }
-
+    .timeline-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--rojo); flex-shrink: 0; margin-top: 5px; }
     .timeline-dot.verde { background: var(--verde); }
     .timeline-dot.gris { background: var(--texto-apagado); }
 
@@ -543,7 +484,6 @@
       border: 1px solid rgba(227,0,0,0.2);
     }
 
-    /* SCROLLBAR */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--gris-borde); border-radius: 3px; }
@@ -554,7 +494,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
 <body>
-
 
 <!-- ===== LOGIN ===== -->
 <div id="login-screen" style="
@@ -641,7 +580,6 @@
       <div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:600;margin-bottom:6px;color:#fff">Recuperar Contraseña</div>
       <div style="font-size:12px;color:#666;margin-bottom:20px">Te enviaremos un código a tu correo</div>
 
-      <!-- Paso 1: Email -->
       <div id="rec-paso1">
         <div id="rec-error" style="display:none;background:rgba(227,0,0,0.1);border:1px solid rgba(227,0,0,0.3);border-radius:8px;padding:12px;font-size:13px;color:#f87171;margin-bottom:16px"></div>
         <div id="rec-ok" style="display:none;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:8px;padding:12px;font-size:13px;color:#4ade80;margin-bottom:16px"></div>
@@ -659,7 +597,6 @@
         </div>
       </div>
 
-      <!-- Paso 2: Código + nueva contraseña -->
       <div id="rec-paso2" style="display:none">
         <div id="rec-error2" style="display:none;background:rgba(227,0,0,0.1);border:1px solid rgba(227,0,0,0.3);border-radius:8px;padding:12px;font-size:13px;color:#f87171;margin-bottom:16px"></div>
         <div style="display:flex;flex-direction:column;gap:14px">
@@ -1015,40 +952,25 @@
         </div>
       </div>
 
-
       <div class="config-section">
         <div class="config-section-title">💬 Configuración de WhatsApp Cloud API (Meta)</div>
-
         <div class="form-grid">
           <div class="form-group full">
             <label>WhatsApp Access Token</label>
             <input type="password" id="cfg-whatsapp_token" placeholder="EAAGxxxxxxxxxxxxxxxxxxxxx"/>
           </div>
-
           <div class="form-group full">
             <label>Phone Number ID</label>
             <input type="text" id="cfg-phone_number_id" placeholder="123456789012345"/>
           </div>
         </div>
-
-        <div style="background:rgba(34,197,94,0.08);
-                    border:1px solid rgba(34,197,94,0.2);
-                    border-radius:8px;
-                    padding:14px;
-                    margin-top:16px;
-                    font-size:13px;
-                    color:#86efac">
-
-          💡 Ve a <strong>Meta Developers → WhatsApp → API Setup</strong>  
-          Copia el <strong>Temporary Access Token</strong> y el <strong>Phone Number ID</strong>.  
-          Luego genera un token permanente para producción.
-
+        <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:14px;margin-top:16px;font-size:13px;color:#86efac">
+          💡 Ve a <strong>Meta Developers → WhatsApp → API Setup</strong>. Copia el <strong>Temporary Access Token</strong> y el <strong>Phone Number ID</strong>.
         </div>
       </div>
 
       <button class="btn btn-primary" onclick="guardarConfig()">💾 Guardar Configuración</button>
 
-      <!-- Solicitudes de acceso -->
       <div class="config-section" style="margin-top:24px">
         <div class="config-section-title">👥 Solicitudes de Acceso</div>
         <div id="solicitudes-lista">
@@ -1056,7 +978,6 @@
         </div>
       </div>
 
-      <!-- Cambiar contraseña -->
       <div class="config-section" style="margin-top:24px">
         <div class="config-section-title">🔒 Cambiar Contraseña</div>
         <div class="form-grid">
@@ -1257,26 +1178,37 @@
 <div class="toast-container" id="toast-container"></div>
 
 <script>
-
+  // ===========================
+  // CONFIGURACIÓN GLOBAL
+  // ===========================
   const API = '/api';
+  let authToken = localStorage.getItem('ap_token') || '';
+  let isLoggingOut = false;
+  let paginaActual = 1;
+  const LIMIT = 50;
+  let clientesSeleccionados = new Set();
+  let campanaDestIds = null;
+  let seleccionTodosDB = false;
+  let totalClientesBD = 0;
+  let plantillaEditandoId = null;
+  let chartInstance = null;
 
-let authToken = localStorage.getItem('ap_token') || '';
-
-let isLoggingOut = false;
-
-async function apiFetch(path, options = {}) {
-  try {
-    const res = await fetch(API + path, {
-      ...options,
+  // ===========================
+  // API FETCH — única definición
+  // ===========================
+  async function apiFetch(path, method = 'GET', body = null) {
+    const options = {
+      method,
       headers: {
         'Content-Type': 'application/json',
-        'x-auth-token': authToken,
-        ...(options.headers || {})
+        'x-auth-token': authToken
       }
-    });
+    };
+    if (body) options.body = JSON.stringify(body);
+
+    const res = await fetch(API + path, options);
 
     if (res.status === 401) {
-      // 🔥 evitar loop infinito
       if (!isLoggingOut) {
         isLoggingOut = true;
         doLogout();
@@ -1285,60 +1217,56 @@ async function apiFetch(path, options = {}) {
     }
 
     if (!res.ok) {
-      const text = await res.text();
-      throw new Error(text);
+      let msg = `Error ${res.status}`;
+      try { const d = await res.json(); msg = d.error || msg; } catch(e) {}
+      throw new Error(msg);
     }
 
     return await res.json();
-
-  } catch (err) {
-    console.error("API ERROR:", err.message);
-    throw err;
   }
-}
 
-function doLogout() {
-  localStorage.removeItem('ap_token');
-  authToken = '';
-  location.reload();
-}
-
+  // ===========================
+  // AUTH
+  // ===========================
+  function doLogout() {
+    localStorage.removeItem('ap_token');
+    authToken = '';
+    location.reload();
+  }
 
   async function doLogin() {
-  const username = document.getElementById('login-user').value.trim();
-  const password = document.getElementById('login-pass').value;
-  const errEl = document.getElementById('login-error');
+    const username = document.getElementById('login-user').value.trim();
+    const password = document.getElementById('login-pass').value;
+    const errEl = document.getElementById('login-error');
+    errEl.style.display = 'none';
 
-  errEl.style.display = 'none';
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
 
-  try {
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
+      const data = await res.json();
 
-    const data = await res.json();
-    console.log("LOGIN:", data);
+      if (!res.ok) {
+        errEl.textContent = data.error || 'Error al iniciar sesión';
+        errEl.style.display = 'block';
+        return;
+      }
 
-    if (!res.ok) {
-      errEl.textContent = data.error;
+      localStorage.setItem('ap_token', data.token);
+      authToken = data.token;
+      isLoggingOut = false;
+
+      document.getElementById('login-screen').style.display = 'none';
+      cargarDashboard();
+
+    } catch (err) {
+      errEl.textContent = 'Error de conexión';
       errEl.style.display = 'block';
-      return;
     }
-
-    localStorage.setItem('ap_token', data.token);
-    authToken = data.token;
-
-    document.getElementById('login-screen').style.display = 'none';
-
-    cargarDashboard();
-
-  } catch (err) {
-    errEl.textContent = "Error de conexión";
-    errEl.style.display = 'block';
   }
-}
 
   async function verificarSesion() {
     if (!authToken) return;
@@ -1347,18 +1275,12 @@ function doLogout() {
       if (d) {
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('sidebar-usuario').textContent = '👤 ' + (d.nombre || d.username);
+        cargarDashboard();
       }
     } catch(e) {
       doLogout();
     }
   }
-  
-  let paginaActual = 1;
-  const LIMIT = 50;
-  let clientesSeleccionados = new Set();
-  let campanaDestIds = null;
-  let seleccionTodosDB = false;
-  let totalClientesBD = 0;
 
   // ===========================
   // NAVEGACIÓN
@@ -1397,22 +1319,71 @@ function doLogout() {
       const tbody = document.getElementById('dash-campanas-table');
       if (!d.ultimasCampanas?.length) {
         tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No hay campañas aún</td></tr>`;
+      } else {
+        tbody.innerHTML = d.ultimasCampanas.map(c => `
+          <tr>
+            <td class="bold">${esc(c.titulo)}</td>
+            <td>${badgeCanal(c.canal)}</td>
+            <td>${c.total_destinatarios}</td>
+            <td>${c.enviados}</td>
+            <td>${badgeEstado(c.estado)}</td>
+            <td>${formatFecha(c.created_at)}</td>
+          </tr>
+        `).join('');
+      }
+
+      cargarGrafica();
+    } catch(e) {
+      showToast(e.message || 'Error cargando dashboard', 'error');
+    }
+  }
+
+  async function cargarGrafica() {
+    try {
+      const data = await apiFetch('/stats/campanas-por-mes');
+      const canvas = document.getElementById('chart-campanas');
+      const empty = document.getElementById('chart-empty');
+      if (!canvas) return;
+
+      if (!data || !data.length) {
+        canvas.style.display = 'none';
+        empty.style.display = 'block';
         return;
       }
-      tbody.innerHTML = d.ultimasCampanas.map(c => `
-        <tr>
-          <td class="bold">${esc(c.titulo)}</td>
-          <td>${badgeCanal(c.canal)}</td>
-          <td>${c.total_destinatarios}</td>
-          <td>${c.enviados}</td>
-          <td>${badgeEstado(c.estado)}</td>
-          <td>${formatFecha(c.created_at)}</td>
-        </tr>
-      `).join('');
-    } catch(e) { 
-  console.error("ERROR DASHBOARD:", e);
-  showToast(e.message || 'Error cargando dashboard', 'error'); 
-}
+
+      canvas.style.display = 'block';
+      empty.style.display = 'none';
+
+      if (chartInstance !== null) {
+        chartInstance.destroy();
+        chartInstance = null;
+      }
+
+      const labels = data.map(d => {
+        const [y, m] = d.mes.split('-');
+        return new Date(y, m - 1).toLocaleString('es-CO', { month: 'short', year: '2-digit' });
+      });
+
+      chartInstance = new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            { label: 'Enviados', data: data.map(d => d.enviados || 0), backgroundColor: 'rgba(34,197,94,0.6)' },
+            { label: 'Fallidos', data: data.map(d => d.fallidos || 0), backgroundColor: 'rgba(239,68,68,0.6)' }
+          ]
+        },
+        options: {
+          plugins: { legend: { labels: { color: '#aaa' } } },
+          scales: {
+            x: { ticks: { color: '#888' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+            y: { ticks: { color: '#888' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+          }
+        }
+      });
+    } catch(e) {
+      console.warn('Gráfica no disponible:', e.message);
+    }
   }
 
   // ===========================
@@ -1423,7 +1394,7 @@ function doLogout() {
     try {
       const d = await apiFetch(`/clientes?search=${encodeURIComponent(search)}&page=${paginaActual}&limit=${LIMIT}`);
       const tbody = document.getElementById('clientes-table');
-      
+
       if (!d.clientes?.length) {
         tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">👥</div><div class="empty-title">No hay clientes</div><div>Importa desde Excel o crea uno nuevo</div></div></td></tr>`;
       } else {
@@ -1448,13 +1419,12 @@ function doLogout() {
         }).join('');
       }
 
-      // Paginación
       const total = d.total;
       totalClientesBD = total;
       document.getElementById('total-bd-count').textContent = total.toLocaleString();
       const totalPags = Math.ceil(total / LIMIT);
       document.getElementById('pag-info-clientes').textContent = `${total} clientes — Página ${paginaActual} de ${totalPags}`;
-      
+
       const pagBtns = document.getElementById('pag-btns-clientes');
       pagBtns.innerHTML = `
         <button class="pag-btn" onclick="cambiarPagina(${paginaActual - 1})" ${paginaActual === 1 ? 'disabled' : ''}>← Anterior</button>
@@ -1487,7 +1457,6 @@ function doLogout() {
       c.checked = cb.checked;
       toggleCliente(parseInt(c.value), cb.checked);
     });
-    // Si marcó todos los de la página y hay más en la BD, ofrecer seleccionar todos
     if (cb.checked && totalClientesBD > LIMIT) {
       document.getElementById('offer-select-all').style.display = 'inline';
     } else {
@@ -1504,7 +1473,7 @@ function doLogout() {
   }
 
   function actualizarSelectorBar() {
-    if (seleccionTodosDB) return; // no pisar el estado de todos
+    if (seleccionTodosDB) return;
     const bar = document.getElementById('selector-bar-clientes');
     const count = clientesSeleccionados.size;
     document.getElementById('selected-count').textContent = count.toLocaleString();
@@ -1524,7 +1493,6 @@ function doLogout() {
   }
 
   function abrirEnvioSeleccionados() {
-    // Si seleccionTodosDB = true, pasar null al backend (= todos)
     campanaDestIds = seleccionTodosDB ? null : [...clientesSeleccionados];
     abrirCampanaModal(true);
   }
@@ -1541,8 +1509,10 @@ function doLogout() {
   }
 
   async function editarCliente(id) {
-    const c = await apiFetch(`/clientes/${id}`);
-    abrirClienteModal(c);
+    try {
+      const c = await apiFetch(`/clientes/${id}`);
+      abrirClienteModal(c);
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
   }
 
   async function guardarCliente() {
@@ -1550,7 +1520,7 @@ function doLogout() {
     const campos = ['nit','dv','naturaleza','primer_nombre','segundo_nombre','primer_apellido','segundo_apellido','empresa','direccion','telefono','movil','email','gerente','cod_identidad','cod_sociedad','cod_actividad','cod_zona','cod_municipio','cod_pais'];
     const body = {};
     campos.forEach(f => body[f] = document.getElementById(`c-${f}`)?.value || '');
-    
+
     try {
       if (id) {
         await apiFetch(`/clientes/${id}`, 'PUT', body);
@@ -1566,9 +1536,11 @@ function doLogout() {
 
   async function eliminarCliente(id) {
     if (!confirm('¿Eliminar este cliente?')) return;
-    await apiFetch(`/clientes/${id}`, 'DELETE');
-    showToast('Cliente eliminado', 'success');
-    cargarClientes();
+    try {
+      await apiFetch(`/clientes/${id}`, 'DELETE');
+      showToast('Cliente eliminado', 'success');
+      cargarClientes();
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
   }
 
   // ===========================
@@ -1595,7 +1567,7 @@ function doLogout() {
   async function ejecutarImport() {
     const file = document.getElementById('file-excel').files[0];
     if (!file) return;
-    
+
     document.getElementById('import-progress').style.display = 'block';
     document.getElementById('btn-importar').disabled = true;
     let prog = 0;
@@ -1606,15 +1578,17 @@ function doLogout() {
 
     const fd = new FormData();
     fd.append('archivo', file);
-    
+
     try {
-      const r = await fetch(`${API}/clientes/importar`, { method: 'POST', body: fd });
+      const r = await fetch(`${API}/clientes/importar`, {
+        method: 'POST',
+        headers: { 'x-auth-token': authToken },
+        body: fd
+      });
       const d = await r.json();
       clearInterval(interval);
       document.getElementById('import-fill').style.width = '100%';
-      
       if (d.error) throw new Error(d.error);
-      
       showToast(`✅ Importados: ${d.insertados} clientes (${d.duplicados} duplicados omitidos)`, 'success');
       cerrarModal('modal-import');
       cargarClientes();
@@ -1644,28 +1618,30 @@ function doLogout() {
   // CAMPAÑAS
   // ===========================
   async function cargarCampanas() {
-    const d = await apiFetch('/campanas');
-    const tbody = document.getElementById('campanas-table');
-    
-    if (!d?.length) {
-      tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">📣</div><div class="empty-title">Sin campañas</div><div>Crea tu primera campaña para comunicarte con los clientes</div></div></td></tr>`;
-      return;
-    }
+    try {
+      const d = await apiFetch('/campanas');
+      const tbody = document.getElementById('campanas-table');
 
-    tbody.innerHTML = d.map(c => `
-      <tr>
-        <td class="bold" style="max-width:220px">${esc(c.titulo)}</td>
-        <td>${badgeCanal(c.canal)}</td>
-        <td>${c.total_destinatarios}</td>
-        <td style="color:#4ade80">${c.enviados}</td>
-        <td style="color:#f87171">${c.fallidos}</td>
-        <td>${badgeEstado(c.estado)}</td>
-        <td>${formatFecha(c.created_at)}</td>
-        <td>
-          <button class="btn btn-secondary btn-sm" onclick="verDetalleCampana(${c.id})">Ver detalle</button>
-        </td>
-      </tr>
-    `).join('');
+      if (!d?.length) {
+        tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">📣</div><div class="empty-title">Sin campañas</div><div>Crea tu primera campaña para comunicarte con los clientes</div></div></td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = d.map(c => `
+        <tr>
+          <td class="bold" style="max-width:220px">${esc(c.titulo)}</td>
+          <td>${badgeCanal(c.canal)}</td>
+          <td>${c.total_destinatarios}</td>
+          <td style="color:#4ade80">${c.enviados}</td>
+          <td style="color:#f87171">${c.fallidos}</td>
+          <td>${badgeEstado(c.estado)}</td>
+          <td>${formatFecha(c.created_at)}</td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick="verDetalleCampana(${c.id})">Ver detalle</button>
+          </td>
+        </tr>
+      `).join('');
+    } catch(e) { showToast('Error cargando campañas: ' + e.message, 'error'); }
   }
 
   function abrirCampanaModal(conSeleccionados = false) {
@@ -1675,7 +1651,7 @@ function doLogout() {
     document.querySelectorAll('[name="dest-tipo"]')[0].checked = true;
     document.getElementById('dest-seleccion-info').style.display = 'none';
     document.getElementById('camp-fecha-programada').value = '';
-    
+
     if (conSeleccionados) {
       document.querySelectorAll('[name="dest-tipo"]')[1].checked = true;
       document.getElementById('dest-seleccion-info').style.display = 'block';
@@ -1685,7 +1661,7 @@ function doLogout() {
         document.getElementById('dest-count-info').textContent = clientesSeleccionados.size.toLocaleString() + ' clientes';
       }
     }
-    
+
     abrirModal('modal-campana');
   }
 
@@ -1705,20 +1681,18 @@ function doLogout() {
     const mensaje = document.getElementById('camp-mensaje').value.trim();
     const canal = document.getElementById('camp-canal').value;
     const destTipo = document.querySelector('[name="dest-tipo"]:checked')?.value;
-    
+
     if (!titulo || !mensaje) { showToast('Completa el título y el mensaje', 'error'); return; }
-    
+
     const fechaProg = document.getElementById('camp-fecha-programada').value;
     try {
       const { id } = await apiFetch('/campanas', 'POST', { titulo, mensaje, canal });
-      const ids = (destTipo === 'seleccionados' && !seleccionTodosDB) ? [...clientesSeleccionados] : (seleccionTodosDB ? null : null);
+      const ids = (destTipo === 'seleccionados' && !seleccionTodosDB) ? [...clientesSeleccionados] : null;
 
       if (fechaProg) {
-        // Programar envío
         await apiFetch(`/campanas/${id}/programar`, 'POST', { fecha_envio: new Date(fechaProg).toISOString(), cliente_ids: ids });
         showToast(`⏰ Campaña programada para ${new Date(fechaProg).toLocaleString('es-CO')}`, 'success');
       } else {
-        // Enviar ahora
         const r = await apiFetch(`/campanas/${id}/enviar`, 'POST', { cliente_ids: ids });
         showToast(`🚀 Enviando a ${r.total} destinatarios...`, 'success');
       }
@@ -1728,69 +1702,68 @@ function doLogout() {
   }
 
   async function verDetalleCampana(id) {
-    const d = await apiFetch(`/campanas/${id}`);
-    const progPct = d.total_destinatarios > 0 ? Math.round((d.enviados / d.total_destinatarios) * 100) : 0;
-    
-    document.getElementById('detalle-camp-title').textContent = d.titulo;
-    document.getElementById('detalle-camp-body').innerHTML = `
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
-        <div style="background:var(--gris-oscuro);border-radius:8px;padding:16px;text-align:center">
-          <div style="font-size:11px;color:var(--texto-apagado);margin-bottom:4px">TOTAL</div>
-          <div style="font-family:Rajdhani,sans-serif;font-size:28px;font-weight:700">${d.total_destinatarios}</div>
-        </div>
-        <div style="background:rgba(34,197,94,0.08);border-radius:8px;padding:16px;text-align:center">
-          <div style="font-size:11px;color:var(--texto-apagado);margin-bottom:4px">ENVIADOS</div>
-          <div style="font-family:Rajdhani,sans-serif;font-size:28px;font-weight:700;color:#4ade80">${d.enviados}</div>
-        </div>
-        <div style="background:rgba(239,68,68,0.08);border-radius:8px;padding:16px;text-align:center">
-          <div style="font-size:11px;color:var(--texto-apagado);margin-bottom:4px">FALLIDOS</div>
-          <div style="font-family:Rajdhani,sans-serif;font-size:28px;font-weight:700;color:#f87171">${d.fallidos}</div>
-        </div>
-        <div style="background:var(--gris-oscuro);border-radius:8px;padding:16px;text-align:center">
-          <div style="font-size:11px;color:var(--texto-apagado);margin-bottom:4px">PROGRESO</div>
-          <div style="font-family:Rajdhani,sans-serif;font-size:28px;font-weight:700">${progPct}%</div>
-        </div>
-      </div>
-      
-      <div style="margin-bottom:12px">
-        <div class="progress-bar" style="height:8px">
-          <div class="progress-fill" style="width:${progPct}%"></div>
-        </div>
-      </div>
-      
-      <div style="background:var(--gris-oscuro);border-radius:8px;padding:16px;margin-bottom:20px;font-size:13px">
-        <div style="color:var(--texto-apagado);margin-bottom:6px">MENSAJE ENVIADO</div>
-        <div style="color:var(--blanco)">${esc(d.mensaje).replace(/\n/g,'<br>')}</div>
-      </div>
+    try {
+      const d = await apiFetch(`/campanas/${id}`);
+      const progPct = d.total_destinatarios > 0 ? Math.round((d.enviados / d.total_destinatarios) * 100) : 0;
 
-      <div style="font-family:Rajdhani,sans-serif;font-size:16px;font-weight:600;margin-bottom:12px">Historial de envíos</div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Cliente</th>
-              <th>Destinatario</th>
-              <th>Estado</th>
-              <th>Fecha</th>
-              <th>Error</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${d.envios?.map(e => {
-              const nombre = [e.primer_nombre, e.primer_apellido].filter(Boolean).join(' ') || e.empresa || '—';
-              return `<tr>
-                <td class="bold">${esc(nombre)}</td>
-                <td>${esc(e.destinatario || '—')}</td>
-                <td>${badgeEstado(e.estado)}</td>
-                <td>${formatFecha(e.enviado_at)}</td>
-                <td style="color:#f87171;font-size:11px">${esc(e.error_msg || '')}</td>
-              </tr>`;
-            }).join('') || '<tr><td colspan="5" style="text-align:center;color:#555;padding:20px">Sin envíos registrados</td></tr>'}
-          </tbody>
-        </table>
-      </div>
-    `;
-    abrirModal('modal-detalle-campana');
+      document.getElementById('detalle-camp-title').textContent = d.titulo;
+      document.getElementById('detalle-camp-body').innerHTML = `
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+          <div style="background:var(--gris-oscuro);border-radius:8px;padding:16px;text-align:center">
+            <div style="font-size:11px;color:var(--texto-apagado);margin-bottom:4px">TOTAL</div>
+            <div style="font-family:Rajdhani,sans-serif;font-size:28px;font-weight:700">${d.total_destinatarios}</div>
+          </div>
+          <div style="background:rgba(34,197,94,0.08);border-radius:8px;padding:16px;text-align:center">
+            <div style="font-size:11px;color:var(--texto-apagado);margin-bottom:4px">ENVIADOS</div>
+            <div style="font-family:Rajdhani,sans-serif;font-size:28px;font-weight:700;color:#4ade80">${d.enviados}</div>
+          </div>
+          <div style="background:rgba(239,68,68,0.08);border-radius:8px;padding:16px;text-align:center">
+            <div style="font-size:11px;color:var(--texto-apagado);margin-bottom:4px">FALLIDOS</div>
+            <div style="font-family:Rajdhani,sans-serif;font-size:28px;font-weight:700;color:#f87171">${d.fallidos}</div>
+          </div>
+          <div style="background:var(--gris-oscuro);border-radius:8px;padding:16px;text-align:center">
+            <div style="font-size:11px;color:var(--texto-apagado);margin-bottom:4px">PROGRESO</div>
+            <div style="font-family:Rajdhani,sans-serif;font-size:28px;font-weight:700">${progPct}%</div>
+          </div>
+        </div>
+        <div style="margin-bottom:12px">
+          <div class="progress-bar" style="height:8px">
+            <div class="progress-fill" style="width:${progPct}%"></div>
+          </div>
+        </div>
+        <div style="background:var(--gris-oscuro);border-radius:8px;padding:16px;margin-bottom:20px;font-size:13px">
+          <div style="color:var(--texto-apagado);margin-bottom:6px">MENSAJE ENVIADO</div>
+          <div style="color:var(--blanco)">${esc(d.mensaje).replace(/\n/g,'<br>')}</div>
+        </div>
+        <div style="font-family:Rajdhani,sans-serif;font-size:16px;font-weight:600;margin-bottom:12px">Historial de envíos</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Destinatario</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Error</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${d.envios?.map(e => {
+                const nombre = [e.primer_nombre, e.primer_apellido].filter(Boolean).join(' ') || e.empresa || '—';
+                return `<tr>
+                  <td class="bold">${esc(nombre)}</td>
+                  <td>${esc(e.destinatario || '—')}</td>
+                  <td>${badgeEstado(e.estado)}</td>
+                  <td>${formatFecha(e.enviado_at)}</td>
+                  <td style="color:#f87171;font-size:11px">${esc(e.error_msg || '')}</td>
+                </tr>`;
+              }).join('') || '<tr><td colspan="5" style="text-align:center;color:#555;padding:20px">Sin envíos registrados</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      `;
+      abrirModal('modal-detalle-campana');
+    } catch(e) { showToast('Error cargando detalle: ' + e.message, 'error'); }
   }
 
   // ===========================
@@ -1798,11 +1771,10 @@ function doLogout() {
   // ===========================
   async function cargarTrazabilidad() {
     try {
-      // Cargar campañas para el filtro
       const campanas = await apiFetch('/campanas');
       const sel = document.getElementById('filter-campana');
       const current = sel.value;
-      sel.innerHTML = '<option value="">Todas las campañas</option>' + 
+      sel.innerHTML = '<option value="">Todas las campañas</option>' +
         campanas.map(c => `<option value="${c.id}" ${current==c.id?'selected':''}>${esc(c.titulo)}</option>`).join('');
 
       const campId = document.getElementById('filter-campana').value;
@@ -1812,16 +1784,14 @@ function doLogout() {
         const d = await apiFetch(`/campanas/${campId}`);
         let envios = d.envios || [];
         if (estado) envios = envios.filter(e => e.estado === estado);
-        renderTrazaTable(envios, d.titulo);
+        renderTrazaTable(envios.map(e => ({ ...e, camp_titulo: d.titulo })));
       } else {
-        // Mostrar todos
         const rows = [];
         for (const c of campanas.slice(0,20)) {
           const d = await apiFetch(`/campanas/${c.id}`);
           (d.envios || []).forEach(e => rows.push({ ...e, camp_titulo: c.titulo }));
         }
-        let filtrados = rows;
-        if (estado) filtrados = rows.filter(e => e.estado === estado);
+        let filtrados = estado ? rows.filter(e => e.estado === estado) : rows;
         filtrados.sort((a,b) => new Date(b.enviado_at) - new Date(a.enviado_at));
         renderTrazaTable(filtrados.slice(0,200));
       }
@@ -1851,104 +1821,248 @@ function doLogout() {
   // ===========================
   // CONFIGURACIÓN
   // ===========================
- async function cargarConfig() {
-  const config = await apiFetch('/config');
-  const keys = [
-    'email_host',
-    'email_port',
-    'email_user',
-    'email_pass',
-    'whatsapp_token',
-    'phone_number_id'
-  ];
+  async function cargarConfig() {
+    try {
+      const config = await apiFetch('/config');
+      const keys = ['email_host','email_port','email_user','email_pass','whatsapp_token','phone_number_id'];
+      keys.forEach(k => {
+        const el = document.getElementById(`cfg-${k}`);
+        if (el) el.value = config[k] || '';
+      });
+    } catch(e) { showToast('Error cargando configuración', 'error'); }
+  }
 
-  keys.forEach(k => {
-    const el = document.getElementById(`cfg-${k}`);
-    if (el) el.value = config[k] || '';
-  });
-}
-async function guardarConfig() {
-  const keys = [
-    'email_host',
-    'email_port',
-    'email_user',
-    'email_pass',
-    'whatsapp_token',
-    'phone_number_id'
-  ];
+  async function guardarConfig() {
+    try {
+      const keys = ['email_host','email_port','email_user','email_pass','whatsapp_token','phone_number_id'];
+      const body = {};
+      keys.forEach(k => { body[k] = document.getElementById(`cfg-${k}`)?.value || ''; });
+      await apiFetch('/config', 'POST', body);
+      showToast('Configuración guardada ✓', 'success');
+    } catch(e) { showToast('Error guardando configuración: ' + e.message, 'error'); }
+  }
 
-  const body = {};
-  keys.forEach(k => {
-    body[k] = document.getElementById(`cfg-${k}`)?.value || '';
-  });
-
-  await apiFetch('/config', 'POST', body);
-}
   // ===========================
-  // UTILIDADES
+  // PLANTILLAS
   // ===========================
-  async function apiFetch(path, method = 'GET', body = null) {
-  const options = {
-    method,
-    headers: { 'Content-Type': 'application/json' }
-  };
-  if (body) options.body = JSON.stringify(body);
-
-  const response = await fetch(path, options);
-  if (!response.ok) throw new Error(`Error: ${response.status}`);
-  return await response.json();
-}
-
-  if (body) {
-    options.body = JSON.stringify(body);
+  async function cargarPlantillas() {
+    try {
+      const data = await apiFetch('/plantillas');
+      const tbody = document.getElementById('plantillas-table');
+      if (!data?.length) {
+        tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📝</div><div class="empty-title">Sin plantillas</div><div>Crea plantillas para reutilizar mensajes frecuentes</div></div></td></tr>`;
+        return;
+      }
+      tbody.innerHTML = data.map(p => `
+        <tr>
+          <td class="bold">${esc(p.nombre)}</td>
+          <td>${badgeCanal(p.canal)}</td>
+          <td>${esc(p.asunto || '—')}</td>
+          <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#888">${esc(p.mensaje)}</td>
+          <td>${formatFecha(p.created_at)}</td>
+          <td>
+            <div class="td-actions">
+              <button class="btn btn-secondary btn-sm" onclick="usarPlantilla(${p.id})">Usar</button>
+              <button class="btn btn-ghost btn-sm" onclick="editarPlantilla(${p.id})">✏️</button>
+              <button class="btn btn-danger btn-sm" onclick="eliminarPlantilla(${p.id})">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    } catch(e) { showToast('Error cargando plantillas: ' + e.message, 'error'); }
   }
 
-  const response = await fetch(path, options);
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.error || `Error en la petición: ${response.status}`);
+  function abrirPlantillaModal(data = null) {
+    plantillaEditandoId = data?.id || null;
+    document.getElementById('pl-nombre').value = data?.nombre || '';
+    document.getElementById('pl-asunto').value = data?.asunto || '';
+    document.getElementById('pl-mensaje').value = data?.mensaje || '';
+    document.getElementById('pl-canal').value = data?.canal || 'email';
+    document.getElementById('modal-plantilla-title').textContent = data ? 'Editar Plantilla' : 'Nueva Plantilla';
+    abrirModal('modal-plantilla');
   }
 
-  return await response.json();
-}
-
-  function abrirModal(id) { document.getElementById(id).classList.add('active'); }
-  function cerrarModal(id) { document.getElementById(id).classList.remove('active'); }
-
-  document.querySelectorAll('.modal-backdrop').forEach(m => {
-    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); });
-  });
-
-  console.log('Llamando a apiFetch para:', url);
-
-  function esc(str) {
-    if (!str) return '';
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  async function editarPlantilla(id) {
+    try {
+      const data = (await apiFetch('/plantillas')).find(p => p.id === id);
+      if (data) abrirPlantillaModal(data);
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
   }
 
-  function formatFecha(dt) {
-    if (!dt) return '—';
-    return new Date(dt).toLocaleString('es-CO', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit', timeZone:'America/Bogota' });
+  async function guardarPlantilla() {
+    const body = {
+      nombre: document.getElementById('pl-nombre').value.trim(),
+      asunto: document.getElementById('pl-asunto').value.trim(),
+      mensaje: document.getElementById('pl-mensaje').value.trim(),
+      canal: document.getElementById('pl-canal').value
+    };
+    if (!body.nombre || !body.mensaje) { showToast('Completa nombre y mensaje', 'error'); return; }
+    try {
+      if (plantillaEditandoId) {
+        await apiFetch('/plantillas/' + plantillaEditandoId, 'PUT', body);
+        showToast('Plantilla actualizada ✓', 'success');
+      } else {
+        await apiFetch('/plantillas', 'POST', body);
+        showToast('Plantilla guardada ✓', 'success');
+      }
+      cerrarModal('modal-plantilla');
+      cargarPlantillas();
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
   }
 
-  function badgeEstado(s) {
-    const map = { enviado:'badge-enviado', fallido:'badge-fallido', pendiente:'badge-pendiente', enviando:'badge-enviando', completado:'badge-completado', borrador:'badge-borrador' };
-    return `<span class="badge ${map[s]||'badge-borrador'}">${s}</span>`;
+  async function eliminarPlantilla(id) {
+    if (!confirm('¿Eliminar esta plantilla?')) return;
+    try {
+      await apiFetch('/plantillas/' + id, 'DELETE');
+      showToast('Plantilla eliminada', 'success');
+      cargarPlantillas();
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
   }
 
-  function badgeCanal(c) {
-    return c === 'email' ? `<span class="badge badge-email">✉️ Email</span>` : `<span class="badge badge-whatsapp">💬 WhatsApp</span>`;
+  function usarPlantilla(id) {
+    apiFetch('/plantillas').then(data => {
+      const p = data.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById('camp-titulo').value = p.asunto || p.nombre;
+      document.getElementById('camp-mensaje').value = p.mensaje;
+      document.getElementById('camp-canal').value = p.canal;
+      cerrarModal('modal-plantilla');
+      abrirModal('modal-campana');
+      showToast('Plantilla cargada en la campaña ✓', 'success');
+    }).catch(e => showToast('Error: ' + e.message, 'error'));
   }
 
-  function showToast(msg, type = 'info') {
-    const t = document.createElement('div');
-    t.className = `toast ${type}`;
-    t.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span> ${msg}`;
-    document.getElementById('toast-container').appendChild(t);
-    setTimeout(() => t.remove(), 4000);
+  // ===========================
+  // CAMPAÑAS PROGRAMADAS
+  // ===========================
+  async function cargarProgramadas() {
+    try {
+      const data = await apiFetch('/campanas-programadas');
+      const tbody = document.getElementById('programadas-table');
+      if (!data?.length) {
+        tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">⏰</div><div class="empty-title">Sin campañas programadas</div><div>Programa una campaña desde la sección Campañas</div></div></td></tr>`;
+        return;
+      }
+      tbody.innerHTML = data.map(p => `
+        <tr>
+          <td class="bold">${esc(p.titulo)}</td>
+          <td>${badgeCanal(p.canal)}</td>
+          <td style="color:#fbbf24">${formatFecha(p.fecha_envio)}</td>
+          <td>${badgeEstado(p.estado)}</td>
+          <td>
+            ${p.estado === 'pendiente' ? `<button class="btn btn-danger btn-sm" onclick="cancelarProgramada(${p.id})">✕ Cancelar</button>` : '—'}
+          </td>
+        </tr>
+      `).join('');
+    } catch(e) { showToast('Error cargando programadas: ' + e.message, 'error'); }
   }
 
+  async function cancelarProgramada(id) {
+    if (!confirm('¿Cancelar esta campaña programada?')) return;
+    try {
+      await apiFetch('/campanas-programadas/' + id, 'DELETE');
+      showToast('Programación cancelada', 'success');
+      cargarProgramadas();
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+  }
+
+  // ===========================
+  // EXPORTAR CLIENTES
+  // ===========================
+  function exportarClientes() {
+    fetch(API + '/clientes/exportar', { headers: { 'x-auth-token': authToken } })
+      .then(r => r.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'clientes_autopremium.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('✅ Clientes exportados', 'success');
+      })
+      .catch(() => showToast('Error al exportar', 'error'));
+  }
+
+  // ===========================
+  // SOLICITUDES DE ACCESO
+  // ===========================
+  async function cargarSolicitudes() {
+    try {
+      const data = await apiFetch('/auth/solicitudes');
+      const el = document.getElementById('solicitudes-lista');
+      const pendientes = data.filter(s => s.estado === 'pendiente');
+      const otras = data.filter(s => s.estado !== 'pendiente');
+
+      if (!data.length) {
+        el.innerHTML = '<div style="color:#555;font-size:13px;padding:8px 0">No hay solicitudes</div>';
+        return;
+      }
+
+      let html = '';
+      if (pendientes.length) {
+        html += pendientes.map(s => `
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2a2a2a">
+            <div>
+              <div style="font-weight:500;color:#fff">${esc(s.nombre)}</div>
+              <div style="font-size:12px;color:#666">@${esc(s.username)} · ${formatFecha(s.created_at)}</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-verde btn-sm" onclick="responderSolicitud(${s.id},'aprobar')">✓ Aprobar</button>
+              <button class="btn btn-danger btn-sm" onclick="responderSolicitud(${s.id},'rechazar')">✕ Rechazar</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      if (otras.length) {
+        html += '<div style="margin-top:16px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#555;margin-bottom:8px">Historial</div>';
+        html += otras.slice(0,10).map(s => `
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+            <div>
+              <div style="font-size:13px;color:#aaa">${esc(s.nombre)} <span style="color:#555">@${esc(s.username)}</span></div>
+              <div style="font-size:11px;color:#555">${formatFecha(s.created_at)}</div>
+            </div>
+            <span class="badge ${s.estado === 'aprobado' ? 'badge-completado' : 'badge-fallido'}">${s.estado}</span>
+          </div>
+        `).join('');
+      }
+
+      el.innerHTML = html;
+    } catch(e) {
+      document.getElementById('solicitudes-lista').innerHTML = '<div style="color:#555;font-size:13px">Error cargando solicitudes</div>';
+    }
+  }
+
+  async function responderSolicitud(id, accion) {
+    try {
+      const d = await apiFetch('/auth/solicitudes/' + id, 'POST', { accion });
+      showToast(d.message, 'success');
+      cargarSolicitudes();
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+  }
+
+  async function cambiarPassword() {
+    const actual = document.getElementById('pass-actual').value;
+    const nuevo = document.getElementById('pass-nuevo').value;
+    const confirmar = document.getElementById('pass-confirmar').value;
+    if (!actual || !nuevo || !confirmar) { showToast('Completa todos los campos', 'error'); return; }
+    if (nuevo !== confirmar) { showToast('Las contraseñas nuevas no coinciden', 'error'); return; }
+    if (nuevo.length < 6) { showToast('Mínimo 6 caracteres', 'error'); return; }
+    try {
+      await apiFetch('/auth/cambiar-password', 'POST', { password_actual: actual, password_nuevo: nuevo });
+      showToast('Contraseña actualizada ✓', 'success');
+      document.getElementById('pass-actual').value = '';
+      document.getElementById('pass-nuevo').value = '';
+      document.getElementById('pass-confirmar').value = '';
+    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+  }
+
+  // ===========================
+  // RECUPERAR CONTRASEÑA
+  // ===========================
   function mostrarRecuperar() {
     document.getElementById('login-form-box').style.display = 'none';
     document.getElementById('registro-form').style.display = 'none';
@@ -2018,16 +2132,15 @@ async function guardarConfig() {
       });
       const d = await r.json();
       if (!r.ok) throw new Error(d.error);
-      // Éxito — volver al login
       ocultarRecuperar();
       document.getElementById('login-user').value = '';
       document.getElementById('login-pass').value = '';
       document.getElementById('login-error').style.display = 'none';
-      // Mostrar mensaje de éxito
       const okLogin = document.createElement('div');
       okLogin.style.cssText = 'background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:8px;padding:12px;font-size:13px;color:#4ade80;margin-bottom:16px';
       okLogin.textContent = '✅ ' + d.message;
-      document.getElementById('login-form-box').insertBefore(okLogin, document.getElementById('login-form-box').firstChild.nextSibling.nextSibling);
+      const box = document.getElementById('login-form-box');
+      box.insertBefore(okLogin, box.children[1]);
       setTimeout(() => okLogin.remove(), 5000);
     } catch(e) {
       errEl.textContent = e.message;
@@ -2058,21 +2171,9 @@ async function guardarConfig() {
     errEl.style.display = 'none';
     okEl.style.display = 'none';
 
-    if (!nombre || !email || !username || !password) {
-      errEl.textContent = 'Completa todos los campos';
-      errEl.style.display = 'block';
-      return;
-    }
-    if (!email.includes('@')) {
-      errEl.textContent = 'Ingresa un correo válido';
-      errEl.style.display = 'block';
-      return;
-    }
-    if (password.length < 6) {
-      errEl.textContent = 'La contraseña debe tener mínimo 6 caracteres';
-      errEl.style.display = 'block';
-      return;
-    }
+    if (!nombre || !email || !username || !password) { errEl.textContent = 'Completa todos los campos'; errEl.style.display = 'block'; return; }
+    if (!email.includes('@')) { errEl.textContent = 'Ingresa un correo válido'; errEl.style.display = 'block'; return; }
+    if (password.length < 6) { errEl.textContent = 'La contraseña debe tener mínimo 6 caracteres'; errEl.style.display = 'block'; return; }
 
     try {
       const r = await fetch(API + '/auth/registro', {
@@ -2093,280 +2194,49 @@ async function guardarConfig() {
     }
   }
 
-  async function cargarSolicitudes() {
-    try {
-      const data = await apiFetch('/auth/solicitudes');
-      const el = document.getElementById('solicitudes-lista');
-      const pendientes = data.filter(s => s.estado === 'pendiente');
-      const otras = data.filter(s => s.estado !== 'pendiente');
+  // ===========================
+  // UTILIDADES
+  // ===========================
+  function abrirModal(id) { document.getElementById(id).classList.add('active'); }
+  function cerrarModal(id) { document.getElementById(id).classList.remove('active'); }
 
-      if (!data.length) {
-        el.innerHTML = '<div style="color:#555;font-size:13px;padding:8px 0">No hay solicitudes</div>';
-        return;
-      }
+  document.querySelectorAll('.modal-backdrop').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); });
+  });
 
-      let html = '';
-      if (pendientes.length) {
-        html += pendientes.map(s => `
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2a2a2a">
-            <div>
-              <div style="font-weight:500;color:#fff">${esc(s.nombre)}</div>
-              <div style="font-size:12px;color:#666">@${esc(s.username)} · ${formatFecha(s.created_at)}</div>
-            </div>
-            <div style="display:flex;gap:8px">
-              <button class="btn btn-verde btn-sm" onclick="responderSolicitud(${s.id},'aprobar')">✓ Aprobar</button>
-              <button class="btn btn-danger btn-sm" onclick="responderSolicitud(${s.id},'rechazar')">✕ Rechazar</button>
-            </div>
-          </div>
-        `).join('');
-      }
-
-      if (otras.length) {
-        html += '<div style="margin-top:16px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#555;margin-bottom:8px">Historial</div>';
-        html += otras.slice(0,10).map(s => `
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
-            <div>
-              <div style="font-size:13px;color:#aaa">${esc(s.nombre)} <span style="color:#555">@${esc(s.username)}</span></div>
-              <div style="font-size:11px;color:#555">${formatFecha(s.created_at)}</div>
-            </div>
-            <span class="badge ${s.estado === 'aprobado' ? 'badge-completado' : 'badge-fallido'}">${s.estado}</span>
-          </div>
-        `).join('');
-      }
-
-      el.innerHTML = html;
-    } catch(e) {
-      document.getElementById('solicitudes-lista').innerHTML = '<div style="color:#555;font-size:13px">Error cargando solicitudes</div>';
-    }
+  function esc(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  async function responderSolicitud(id, accion) {
-    try {
-      const d = await apiFetch('/auth/solicitudes/' + id, 'POST', { accion });
-      showToast(d.message, 'success');
-      cargarSolicitudes();
-    } catch(e) {
-      showToast('Error: ' + e.message, 'error');
-    }
+  function formatFecha(dt) {
+    if (!dt) return '—';
+    return new Date(dt).toLocaleString('es-CO', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit', timeZone:'America/Bogota' });
   }
 
-  async function cambiarPassword() {
-    const actual = document.getElementById('pass-actual').value;
-    const nuevo = document.getElementById('pass-nuevo').value;
-    const confirmar = document.getElementById('pass-confirmar').value;
-    if (!actual || !nuevo || !confirmar) { showToast('Completa todos los campos', 'error'); return; }
-    if (nuevo !== confirmar) { showToast('Las contraseñas nuevas no coinciden', 'error'); return; }
-    if (nuevo.length < 6) { showToast('Mínimo 6 caracteres', 'error'); return; }
-    try {
-      await apiFetch('/auth/cambiar-password', 'POST', { password_actual: actual, password_nuevo: nuevo });
-      showToast('Contraseña actualizada ✓', 'success');
-      document.getElementById('pass-actual').value = '';
-      document.getElementById('pass-nuevo').value = '';
-      document.getElementById('pass-confirmar').value = '';
-    } catch(e) { showToast('Error: ' + e.message, 'error'); }
+  function badgeEstado(s) {
+    const map = { enviado:'badge-enviado', fallido:'badge-fallido', pendiente:'badge-pendiente', enviando:'badge-enviando', completado:'badge-completado', borrador:'badge-borrador' };
+    return `<span class="badge ${map[s]||'badge-borrador'}">${s}</span>`;
+  }
+
+  function badgeCanal(c) {
+    return c === 'email'
+      ? `<span class="badge badge-email">✉️ Email</span>`
+      : `<span class="badge badge-whatsapp">💬 WhatsApp</span>`;
+  }
+
+  function showToast(msg, type = 'info') {
+    const t = document.createElement('div');
+    t.className = `toast ${type}`;
+    t.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span> ${msg}`;
+    document.getElementById('toast-container').appendChild(t);
+    setTimeout(() => t.remove(), 4000);
   }
 
   // ===========================
-  // PLANTILLAS
+  // INICIO
   // ===========================
-  async function cargarPlantillas() {
-    const data = await apiFetch('/plantillas');
-    const tbody = document.getElementById('plantillas-table');
-    if (!data?.length) {
-      tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📝</div><div class="empty-title">Sin plantillas</div><div>Crea plantillas para reutilizar mensajes frecuentes</div></div></td></tr>`;
-      return;
-    }
-    tbody.innerHTML = data.map(p => `
-      <tr>
-        <td class="bold">${esc(p.nombre)}</td>
-        <td>${badgeCanal(p.canal)}</td>
-        <td>${esc(p.asunto || '—')}</td>
-        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#888">${esc(p.mensaje)}</td>
-        <td>${formatFecha(p.created_at)}</td>
-        <td>
-          <div class="td-actions">
-            <button class="btn btn-secondary btn-sm" onclick="usarPlantilla(${p.id})">Usar</button>
-            <button class="btn btn-ghost btn-sm" onclick="editarPlantilla(${p.id})">✏️</button>
-            <button class="btn btn-danger btn-sm" onclick="eliminarPlantilla(${p.id})">🗑️</button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
-  }
-
-  let plantillaEditandoId = null;
-  function abrirPlantillaModal(data = null) {
-    plantillaEditandoId = data?.id || null;
-    document.getElementById('pl-nombre').value = data?.nombre || '';
-    document.getElementById('pl-asunto').value = data?.asunto || '';
-    document.getElementById('pl-mensaje').value = data?.mensaje || '';
-    document.getElementById('pl-canal').value = data?.canal || 'email';
-    document.getElementById('modal-plantilla-title').textContent = data ? 'Editar Plantilla' : 'Nueva Plantilla';
-    abrirModal('modal-plantilla');
-  }
-
-  async function editarPlantilla(id) {
-    const data = (await apiFetch('/plantillas')).find(p => p.id === id);
-    if (data) abrirPlantillaModal(data);
-  }
-
-  async function guardarPlantilla() {
-    const body = {
-      nombre: document.getElementById('pl-nombre').value.trim(),
-      asunto: document.getElementById('pl-asunto').value.trim(),
-      mensaje: document.getElementById('pl-mensaje').value.trim(),
-      canal: document.getElementById('pl-canal').value
-    };
-    if (!body.nombre || !body.mensaje) { showToast('Completa nombre y mensaje', 'error'); return; }
-    try {
-      if (plantillaEditandoId) {
-        await apiFetch('/plantillas/' + plantillaEditandoId, 'PUT', body);
-        showToast('Plantilla actualizada ✓', 'success');
-      } else {
-        await apiFetch('/plantillas', 'POST', body);
-        showToast('Plantilla guardada ✓', 'success');
-      }
-      cerrarModal('modal-plantilla');
-      cargarPlantillas();
-    } catch(e) { showToast('Error: ' + e.message, 'error'); }
-  }
-
-  async function eliminarPlantilla(id) {
-    if (!confirm('¿Eliminar esta plantilla?')) return;
-    await apiFetch('/plantillas/' + id, 'DELETE');
-    showToast('Plantilla eliminada', 'success');
-    cargarPlantillas();
-  }
-
-  function usarPlantilla(id) {
-    apiFetch('/plantillas').then(data => {
-      const p = data.find(x => x.id === id);
-      if (!p) return;
-      document.getElementById('camp-titulo').value = p.asunto || p.nombre;
-      document.getElementById('camp-mensaje').value = p.mensaje;
-      document.getElementById('camp-canal').value = p.canal;
-      cerrarModal('modal-plantilla');
-      abrirModal('modal-campana');
-      showToast('Plantilla cargada en la campaña ✓', 'success');
-    });
-  }
-
-  // ===========================
-  // CAMPAÑAS PROGRAMADAS
-  // ===========================
-  async function cargarProgramadas() {
-    const data = await apiFetch('/campanas-programadas');
-    const tbody = document.getElementById('programadas-table');
-    if (!data?.length) {
-      tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">⏰</div><div class="empty-title">Sin campañas programadas</div><div>Programa una campaña desde la sección Campañas</div></div></td></tr>`;
-      return;
-    }
-    tbody.innerHTML = data.map(p => `
-      <tr>
-        <td class="bold">${esc(p.titulo)}</td>
-        <td>${badgeCanal(p.canal)}</td>
-        <td style="color:#fbbf24">${formatFecha(p.fecha_envio)}</td>
-        <td>${badgeEstado(p.estado)}</td>
-        <td>
-          ${p.estado === 'pendiente' ? `<button class="btn btn-danger btn-sm" onclick="cancelarProgramada(${p.id})">✕ Cancelar</button>` : '—'}
-        </td>
-      </tr>
-    `).join('');
-  }
-
-  async function cancelarProgramada(id) {
-    if (!confirm('¿Cancelar esta campaña programada?')) return;
-    await apiFetch('/campanas-programadas/' + id, 'DELETE');
-    showToast('Programación cancelada', 'success');
-    cargarProgramadas();
-  }
-
-  // ===========================
-  // EXPORTAR CLIENTES
-  // ===========================
-  function exportarClientes() {
-    const token = authToken || '';
-    const a = document.createElement('a');
-    a.href = API + '/clientes/exportar';
-    a.download = 'clientes_autopremium.csv';
-    // Necesitamos pasar el token — fetch con blob
-    fetch(API + '/clientes/exportar', { headers: { 'x-auth-token': token } })
-      .then(r => r.blob())
-      .then(blob => {
-        const url = URL.createObjectURL(blob);
-        a.href = url;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        showToast('✅ Clientes exportados', 'success');
-      })
-      .catch(() => showToast('Error al exportar', 'error'));
-  }
-
-  // ===========================
-  // GRÁFICA DASHBOARD
-  // ===========================
-  let chartInstance = null;
-
-async function cargarGrafica() {
-  try {
-    const data = await apiFetch('/stats/campanas-por-mes');
-
-    const canvas = document.getElementById('chart-campanas');
-    const empty = document.getElementById('chart-empty');
-
-    if (!canvas) return;
-
-    if (!data || !data.length) {
-      canvas.style.display = 'none';
-      empty.style.display = 'block';
-      return;
-    }
-
-    canvas.style.display = 'block';
-    empty.style.display = 'none';
-
-    // 🔥 destruir correctamente
-    if (chartInstance !== null) {
-      chartInstance.destroy();
-      chartInstance = null;
-    }
-
-    const labels = data.map(d => {
-      const [y, m] = d.mes.split('-');
-      return new Date(y, m - 1).toLocaleString('es-CO', {
-        month: 'short',
-        year: '2-digit'
-      });
-    });
-
-    chartInstance = new Chart(canvas.getContext('2d'), {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [
-          {
-            label: 'Enviados',
-            data: data.map(d => d.enviados || 0)
-          },
-          {
-            label: 'Fallidos',
-            data: data.map(d => d.fallidos || 0)
-          }
-        ]
-      }
-    });
-
-  } catch (e) {
-    console.error("Gráfica no disponible:", e);
-  }
-}
-
-  // Iniciar
   verificarSesion();
-
-
 </script>
 </body>
 </html>
